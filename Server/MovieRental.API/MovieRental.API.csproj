@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
@@ -15,10 +16,6 @@
     <ProjectReference Include="..\MovieRental.Application\MovieRental.Application.csproj" />
     <ProjectReference Include="..\MovieRental.Domain\MovieRental.Domain.csproj" />
     <ProjectReference Include="..\MovieRental.Infrastructure\MovieRental.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
