@@ -10,43 +10,43 @@ using System.Threading.Tasks;
 
 namespace MovieRental.Infrastructure.Repositories
 {
-    public class MovieRepository : IMovieRepository
+    public class ReviewRepository : IReviewRepository
     {
         private readonly AppDbContext _appDbContext;
-        public MovieRepository(AppDbContext appDbContext)
+        public ReviewRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
-        public async Task AddMovie(Movie movie)
+        public async Task AddReview(Review review)
         {
-            await _appDbContext.Movies.AddAsync(movie);
+            await _appDbContext.Reviews.AddAsync(review);
             await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteMovie(int id)
+        public async Task DeleteReview(int id)
         {
-            var movie = await GetMovie(id);
-            if (movie != null)
+            var review = await GetReview(id);
+            if(review != null)
             {
-                _appDbContext.Movies.Remove(movie);
+                _appDbContext.Reviews.Remove(review);
                 await _appDbContext.SaveChangesAsync();
             }
         }
 
-        public async Task<IEnumerable<Movie>> GetAllMovies()
+        public async Task<IEnumerable<Review>> GetAllReviews()
         {
-            return await _appDbContext.Movies.ToListAsync();
+            return await _appDbContext.Reviews.ToListAsync();
         }
 
-        public async Task<Movie?> GetMovie(int id)
+        public async Task<Review?> GetReview(int id)
         {
-            return await _appDbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
+            return await _appDbContext.Reviews.FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public async Task UpdateMovie(Movie movie)
+        public async Task UpdateReview(Review review)
         {
-            _appDbContext.Movies.Update(movie);
+            _appDbContext.Reviews.Update(review);
             await _appDbContext.SaveChangesAsync();
         }
     }

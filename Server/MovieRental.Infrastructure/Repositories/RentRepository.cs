@@ -10,43 +10,43 @@ using System.Threading.Tasks;
 
 namespace MovieRental.Infrastructure.Repositories
 {
-    public class MovieRepository : IMovieRepository
+    public class RentRepository : IRentRepository
     {
         private readonly AppDbContext _appDbContext;
-        public MovieRepository(AppDbContext appDbContext)
+        public RentRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
-        public async Task AddMovie(Movie movie)
+        public async Task AddRent(Rent rent)
         {
-            await _appDbContext.Movies.AddAsync(movie);
+            await _appDbContext.Rents.AddAsync(rent);
             await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteMovie(int id)
+        public async Task DeleteRent(int id)
         {
-            var movie = await GetMovie(id);
-            if (movie != null)
+            var rent = await GetRent(id);
+            if(rent != null)
             {
-                _appDbContext.Movies.Remove(movie);
+                _appDbContext.Rents.Remove(rent);
                 await _appDbContext.SaveChangesAsync();
             }
         }
 
-        public async Task<IEnumerable<Movie>> GetAllMovies()
+        public async Task<IEnumerable<Rent>> GetAllRents()
         {
-            return await _appDbContext.Movies.ToListAsync();
+            return await _appDbContext.Rents.ToListAsync();
         }
 
-        public async Task<Movie?> GetMovie(int id)
+        public async Task<Rent?> GetRent(int id)
         {
-            return await _appDbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
+            return await _appDbContext.Rents.FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public async Task UpdateMovie(Movie movie)
+        public async Task UpdateRent(Rent rent)
         {
-            _appDbContext.Movies.Update(movie);
+            _appDbContext.Rents.Update(rent);
             await _appDbContext.SaveChangesAsync();
         }
     }
