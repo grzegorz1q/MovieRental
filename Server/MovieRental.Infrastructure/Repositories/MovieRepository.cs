@@ -1,4 +1,5 @@
-﻿using MovieRental.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
 using MovieRental.Infrastructure.Persistence;
 using System;
@@ -33,19 +34,20 @@ namespace MovieRental.Infrastructure.Repositories
             }
         }
 
-        public Task<IEnumerable<Movie>> GetAllMovies()
+        public async Task<IEnumerable<Movie>> GetAllMovies()
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Movies.ToListAsync();
         }
 
-        public Task<Movie> GetMovie(int id)
+        public async Task<Movie?> GetMovie(int id)
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public Task UpdateMovie(Movie movie)
+        public async Task UpdateMovie(Movie movie)
         {
-            throw new NotImplementedException();
+            _appDbContext.Movies.Update(movie);
+            await _appDbContext.SaveChangesAsync();
         }
     }
 }
