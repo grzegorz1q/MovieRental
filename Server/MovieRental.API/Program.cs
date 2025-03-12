@@ -1,5 +1,11 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MovieRental.Application.Interfaces;
+using MovieRental.Application.Services;
+using MovieRental.Domain.Entities;
+using MovieRental.Domain.Interfaces;
 using MovieRental.Infrastructure.Persistence;
+using MovieRental.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -14,6 +21,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //
+
+//Add repositories to the Dependency Injection Container
+builder.Services.AddScoped<IActorRepository, ActorRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IRentRepository, RentRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+
+//Add services to the Dependency Injection Container
+builder.Services.AddScoped<IMovieService, MovieService>();
 
 var app = builder.Build();
 
@@ -23,6 +41,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Preparing database
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var prepDatabase = new PrepDatabase(dbContext);
+    prepDatabase.Seed();
+}
+//
 
 app.UseHttpsRedirection();
 
