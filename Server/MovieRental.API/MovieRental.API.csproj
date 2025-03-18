@@ -17,5 +17,9 @@
     <ProjectReference Include="..\MovieRental.Domain\MovieRental.Domain.csproj" />
     <ProjectReference Include="..\MovieRental.Infrastructure\MovieRental.Infrastructure.csproj" />
   </ItemGroup>
+	
+  <PropertyGroup>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
 
 </Project>

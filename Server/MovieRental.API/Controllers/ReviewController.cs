@@ -4,15 +4,24 @@ using MovieRental.Application.Interfaces;
 
 namespace MovieRental.API.Controllers
 {
+    /// <summary>
+    /// Kontroler dla recenzji
+    /// </summary>
     [ApiController]
     [Route("movies/{movieId}/reviews")]
     public class ReviewController : ControllerBase
     {
         private readonly IReviewService _reviewService;
+        /// <summary>
+        /// Konstruktor kontrolera dla recenzji
+        /// </summary>
         public ReviewController(IReviewService reviewService)
         {
             _reviewService = reviewService;
         }
+        /// <summary>
+        /// Dodaje recenzję dla filmu o podanym id
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> AddReview([FromRoute] int movieId, [FromBody] CreateReviewDto reviewDto)
         {
@@ -32,6 +41,9 @@ namespace MovieRental.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        /// <summary>
+        /// Zwraca wszystkie recenzje dla filmu o podanym id
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAllMovieReviews([FromRoute] int movieId)
         {

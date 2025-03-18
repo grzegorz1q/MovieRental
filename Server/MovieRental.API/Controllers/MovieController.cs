@@ -3,16 +3,24 @@ using MovieRental.Application.Interfaces;
 
 namespace MovieRental.API.Controllers
 {
+    /// <summary>
+    /// Kontroler dla filmów
+    /// </summary>
     [ApiController]
     [Route("movies")]
     public class MovieController : ControllerBase
     {
         private readonly IMovieService _movieService;
+        /// <summary>
+        /// Konstruktor kontrolera dla filmów
+        /// </summary>
         public MovieController(IMovieService movieService)
         {
             _movieService = movieService;
         }
-
+        /// <summary>
+        /// Zwraca listę wszystkich filmów
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAllMovies()
         {
@@ -27,6 +35,9 @@ namespace MovieRental.API.Controllers
                 return BadRequest();
             }
         }
+        /// <summary>
+        /// Zwraca film o podanym id
+        /// </summary>
         [HttpGet("{movieId}")]
         public async Task<IActionResult> GetMovie([FromRoute] int movieId)
         {
