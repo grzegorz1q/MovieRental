@@ -12,6 +12,7 @@ namespace MovieRental.API.Controllers
         {
             _movieService = movieService;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAllMovies()
         {
@@ -21,7 +22,7 @@ namespace MovieRental.API.Controllers
                 return Ok(movies);
             }catch (Exception ex) 
             { 
-                Console.WriteLine(ex);
+                Console.WriteLine(ex.Message);
                 return BadRequest();
             }
         }

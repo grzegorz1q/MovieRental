@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MovieRental.Application.Dtos.Movie;
+using MovieRental.Application.Dtos.Review;
 using MovieRental.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,13 @@ namespace MovieRental.Application.Profiles
     {
         public BaseProfile() 
         {
+            //------MOVIES------
             CreateMap<Movie, ReadMovieDto>();
+
+            //------REVIEWS------
+            CreateMap<CreateReviewDto, Review>();
+            CreateMap<Review, ReadReviewDto>()
+                .ForMember(dest => dest.MovieTitle, x=> x.MapFrom(src => src.Movie.Title));
         }
     }
 }

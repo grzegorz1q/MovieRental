@@ -38,7 +38,10 @@ namespace MovieRental.Infrastructure.Repositories
         {
             return await _appDbContext.Reviews.ToListAsync();
         }
-
+        public async Task<IEnumerable<Review>> GetAllMovieReviews(int movieId)
+        {
+            return await _appDbContext.Reviews.Where(r => r.MovieId == movieId).ToListAsync();
+        }
         public async Task<Review?> GetReview(int id)
         {
             return await _appDbContext.Reviews.FirstOrDefaultAsync(r => r.Id == id);

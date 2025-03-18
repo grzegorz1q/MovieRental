@@ -32,6 +32,7 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
 //Add services to the Dependency Injection Container
 builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 var app = builder.Build();
 

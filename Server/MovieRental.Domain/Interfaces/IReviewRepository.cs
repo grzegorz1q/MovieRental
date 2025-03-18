@@ -11,6 +11,7 @@ namespace MovieRental.Domain.Interfaces
     {
         Task AddReview(Review review);
         Task<IEnumerable<Review>> GetAllReviews();
+        Task<IEnumerable<Review>> GetAllMovieReviews(int movieId);
         Task<Review?> GetReview(int id);
         Task UpdateReview(Review review);
         Task DeleteReview(int id);
