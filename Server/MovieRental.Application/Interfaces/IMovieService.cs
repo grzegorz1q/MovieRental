@@ -10,5 +10,6 @@ namespace MovieRental.Application.Interfaces
     public interface IMovieService
     {
         Task<IEnumerable<ReadMovieDto>> GetAllMovies();
+        Task<ReadMovieDto> GetMovie(int movieId);
     }
 }

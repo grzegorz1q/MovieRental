@@ -25,5 +25,12 @@ namespace MovieRental.Application.Services
             var movies = await _movieRepository.GetAllMovies();
             return _mapper.Map<IEnumerable<ReadMovieDto>>(movies);
         }
+        public async Task<ReadMovieDto> GetMovie(int movieId)
+        {
+            var movie = await _movieRepository.GetMovie(movieId);
+            if (movie == null)
+                throw new ArgumentNullException("Movie not found!");
+            return _mapper.Map<ReadMovieDto>(movie);
+        }
     }
 }
