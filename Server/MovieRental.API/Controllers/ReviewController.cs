@@ -4,17 +4,11 @@ using MovieRental.Application.Interfaces;
 
 namespace MovieRental.API.Controllers
 {
-    /// <summary>
-    /// Kontroler dla recenzji
-    /// </summary>
     [ApiController]
     [Route("movies/{movieId}/reviews")]
     public class ReviewController : ControllerBase
     {
         private readonly IReviewService _reviewService;
-        /// <summary>
-        /// Konstruktor kontrolera dla recenzji
-        /// </summary>
         public ReviewController(IReviewService reviewService)
         {
             _reviewService = reviewService;

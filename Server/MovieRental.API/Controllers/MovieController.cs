@@ -3,17 +3,11 @@ using MovieRental.Application.Interfaces;
 
 namespace MovieRental.API.Controllers
 {
-    /// <summary>
-    /// Kontroler dla filmów
-    /// </summary>
     [ApiController]
     [Route("movies")]
     public class MovieController : ControllerBase
     {
         private readonly IMovieService _movieService;
-        /// <summary>
-        /// Konstruktor kontrolera dla filmów
-        /// </summary>
         public MovieController(IMovieService movieService)
         {
             _movieService = movieService;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Dtos.Movie;
 using MovieRental.Application.Dtos.Review;
 using MovieRental.Domain.Entities;
@@ -21,6 +22,9 @@ namespace MovieRental.Application.Profiles
             CreateMap<CreateReviewDto, Review>();
             CreateMap<Review, ReadReviewDto>()
                 .ForMember(dest => dest.MovieTitle, x=> x.MapFrom(src => src.Movie.Title));
+
+            //------EMPLOYEES------
+            CreateMap<CreateEmployeeDto, Employee>();
         }
     }
 }
