@@ -9,6 +9,5 @@ namespace MovieRental.Domain.Entities
     public class Actor : Person
     {
         public ICollection<Movie> Movies { get; set; } = default!;
-
     }
 }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MovieRental.Domain.Entities
+﻿namespace MovieRental.Domain.Entities
 {
     public class Movie
     {
