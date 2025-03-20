@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Interfaces;
 
@@ -17,6 +18,7 @@ namespace MovieRental.API.Controllers
         /// Dodaje pracownika
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddEmployee(CreateEmployeeDto employeeDto)
         {
             try
