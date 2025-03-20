@@ -49,5 +49,9 @@ namespace MovieRental.Infrastructure.Repositories
             _appDbContext.Movies.Update(movie);
             await _appDbContext.SaveChangesAsync();
         }
+        public async Task<bool> IsMovieWithTitle(string title)
+        {
+            return await _appDbContext.Movies.AnyAsync(m => m.Title == title);
+        }
     }
 }

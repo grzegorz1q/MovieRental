@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MovieRental.Application.Dtos.Movie;
 using MovieRental.Application.Interfaces;
+using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,15 @@ namespace MovieRental.Application.Services
             if (movie == null)
                 throw new ArgumentNullException("Movie not found!");
             return _mapper.Map<ReadMovieDto>(movie);
+        }
+        public async Task AddMovie(CreateMovieDto movieDto)
+        {
+            bool movieExist = await _movieRepository.IsMovieWithTitle(movieDto.Title);
+            if (movieExist)
+                throw new ArgumentException("Movie with the given title is already in the database");
+
+            var movie = _mapper.Map<Movie>(movieDto);
+            await _movieRepository.AddMovie(movie);
         }
     }
 }

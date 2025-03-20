@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MovieRental.Application.Dtos.Actor;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Dtos.Movie;
 using MovieRental.Application.Dtos.Review;
@@ -17,6 +18,7 @@ namespace MovieRental.Application.Profiles
         {
             //------MOVIES------
             CreateMap<Movie, ReadMovieDto>();
+            CreateMap<CreateMovieDto, Movie>();
 
             //------REVIEWS------
             CreateMap<CreateReviewDto, Review>();
@@ -25,6 +27,9 @@ namespace MovieRental.Application.Profiles
 
             //------EMPLOYEES------
             CreateMap<CreateEmployeeDto, Employee>();
+
+            //------ACTORS------
+            CreateMap<ActorDto, Actor>();
         }
     }
 }

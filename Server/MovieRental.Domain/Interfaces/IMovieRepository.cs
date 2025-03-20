@@ -9,5 +9,6 @@ namespace MovieRental.Domain.Interfaces
         Task<Movie?> GetMovie(int id);
         Task UpdateMovie(Movie movie);
         Task DeleteMovie(int id);
+        Task<bool> IsMovieWithTitle(string title);
     }
 }
