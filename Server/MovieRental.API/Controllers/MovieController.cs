@@ -76,5 +76,20 @@ namespace MovieRental.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("{movieId}")]
+        public async Task<IActionResult> UpdateMovie([FromRoute] int movieId, [FromBody] UpdateMovieDto movieDto)
+        {
+            try
+            {
+                await _movieService.UpdateMovie(movieId, movieDto);
+                return Ok(movieDto);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
     }
 }

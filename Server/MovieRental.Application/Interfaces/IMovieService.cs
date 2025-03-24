@@ -13,5 +13,6 @@ namespace MovieRental.Application.Interfaces
         Task<IEnumerable<ReadMovieDto>> GetAllMovies();
         Task<ReadMovieDto> GetMovie(int movieId);
         Task AddMovie(CreateMovieDto movieDto);
+        Task UpdateMovie(int movieId, UpdateMovieDto movieDto);
     }
 }

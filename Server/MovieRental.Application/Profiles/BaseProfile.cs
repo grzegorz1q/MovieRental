@@ -19,6 +19,8 @@ namespace MovieRental.Application.Profiles
             //------MOVIES------
             CreateMap<Movie, ReadMovieDto>();
             CreateMap<CreateMovieDto, Movie>();
+            CreateMap<UpdateMovieDto, Movie>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             //------REVIEWS------
             CreateMap<CreateReviewDto, Review>();
