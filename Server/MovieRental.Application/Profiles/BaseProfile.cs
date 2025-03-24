@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MovieRental.Application.Dtos.Actor;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Dtos.Movie;
 using MovieRental.Application.Dtos.Review;
@@ -17,6 +18,15 @@ namespace MovieRental.Application.Profiles
         {
             //------MOVIES------
             CreateMap<Movie, ReadMovieDto>();
+            CreateMap<CreateMovieDto, Movie>();
+            CreateMap<UpdateMovieDto, Movie>()
+                .ForMember(dest => dest.Title, opts => opts.MapFrom((src, dest) => src.Title ?? dest.Title))
+                .ForMember(dest => dest.Description, opts => opts.MapFrom((src, dest) => src.Description ?? dest.Description))
+                .ForMember(dest => dest.Director, opts => opts.MapFrom((src, dest) => src.Director ?? dest.Director))
+                .ForMember(dest => dest.ReleaseDate, opts => opts.MapFrom((src, dest) => src.ReleaseDate ?? dest.ReleaseDate))
+                .ForMember(dest => dest.Count, opts => opts.MapFrom((src, dest) => src.Count ?? dest.Count))
+                .ForMember(dest => dest.IsAvailable, opts => opts.MapFrom((src, dest) => src.IsAvailable ?? dest.IsAvailable));
+
 
             //------REVIEWS------
             CreateMap<CreateReviewDto, Review>();
@@ -25,6 +35,9 @@ namespace MovieRental.Application.Profiles
 
             //------EMPLOYEES------
             CreateMap<CreateEmployeeDto, Employee>();
+
+            //------ACTORS------
+            CreateMap<ActorDto, Actor>();
         }
     }
 }

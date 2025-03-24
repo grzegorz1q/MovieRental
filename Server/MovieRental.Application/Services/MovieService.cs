@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MovieRental.Application.Dtos.Movie;
 using MovieRental.Application.Interfaces;
+using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace MovieRental.Application.Services
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
+        private readonly IActorRepository _actorRepository;
         private readonly IMapper _mapper;
-        public MovieService(IMovieRepository movieRepository, IMapper mapper)
+        public MovieService(IMovieRepository movieRepository,IActorRepository actorRepository, IMapper mapper)
         {
             _movieRepository = movieRepository;
+            _actorRepository = actorRepository;
             _mapper = mapper;
         }
 
@@ -31,6 +34,24 @@ namespace MovieRental.Application.Services
             if (movie == null)
                 throw new ArgumentNullException("Movie not found!");
             return _mapper.Map<ReadMovieDto>(movie);
+        }
+        public async Task AddMovie(CreateMovieDto movieDto) // chyba mozna dodac sprawdzanie czy podany aktor jest juz w bazie
+        {
+            bool movieExist = await _movieRepository.IsMovieWithTitle(movieDto.Title);
+            if (movieExist)
+                throw new ArgumentException("Movie with the given title is already in the database");
+            
+            var movie = _mapper.Map<Movie>(movieDto);
+            await _movieRepository.AddMovie(movie);
+        }
+        public async Task UpdateMovie(int movieId, UpdateMovieDto movieDto)
+        {
+            var movie = await _movieRepository.GetMovie(movieId);
+            if (movie == null)
+                throw new ArgumentNullException("Movie not found!");
+
+            _mapper.Map(movieDto, movie);
+            await _movieRepository.UpdateMovie(movie);
         }
     }
 }

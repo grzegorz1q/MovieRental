@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MovieRental.Application.Dtos.Movie;
 using MovieRental.Application.Interfaces;
 
 namespace MovieRental.API.Controllers
@@ -49,6 +51,48 @@ namespace MovieRental.API.Controllers
             {
                 Console.WriteLine(ex.Message);
                 return BadRequest(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Dodaje film (Admin, Employee)
+        /// </summary>
+        [HttpPost]
+        [Authorize(Roles = "Admin, Employee")]
+        public async Task<IActionResult> AddMovie(CreateMovieDto movieDto)
+        {
+            try
+            {
+                await _movieService.AddMovie(movieDto);
+                return Ok(movieDto);
+            }
+            catch(ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Aktualizuje film o podanym id (Admin, Employee)
+        /// </summary>
+        [HttpPut("{movieId}")]
+        [Authorize(Roles = "Admin, Employee")]
+        public async Task<IActionResult> UpdateMovie([FromRoute] int movieId, [FromBody] UpdateMovieDto movieDto)
+        {
+            try
+            {
+                await _movieService.UpdateMovie(movieId, movieDto);
+                return Ok(movieDto);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
             }
         }
     }

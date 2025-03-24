@@ -15,7 +15,7 @@ namespace MovieRental.API.Controllers
             _employeeService = employeeService;
         }
         /// <summary>
-        /// Dodaje pracownika
+        /// Dodaje pracownika (Admin)
         /// </summary>
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -24,7 +24,7 @@ namespace MovieRental.API.Controllers
             try
             {
                 await _employeeService.AddEmployee(employeeDto);
-                return Created();
+                return Ok(employeeDto);
             }
             catch (ArgumentException ex)
             {

@@ -9,6 +9,7 @@ using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
 using MovieRental.Infrastructure.Persistence;
 using MovieRental.Infrastructure.Repositories;
+using MovieRental.Infrastructure.Services;
 using System.Reflection;
 using System.Text;
 
@@ -58,7 +59,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Podaj token w formacie: Bearer {token}"
+        Description = "Podaj token"
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -89,6 +90,8 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IRentRepository, RentRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 //Add services to the Dependency Injection Container
 builder.Services.AddScoped<IMovieService, MovieService>();
