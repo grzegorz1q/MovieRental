@@ -77,7 +77,11 @@ namespace MovieRental.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Aktualizuje film o podanym id (Admin, Employee)
+        /// </summary>
         [HttpPut("{movieId}")]
+        [Authorize(Roles = "Admin, Employee")]
         public async Task<IActionResult> UpdateMovie([FromRoute] int movieId, [FromBody] UpdateMovieDto movieDto)
         {
             try
