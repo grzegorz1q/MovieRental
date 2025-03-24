@@ -33,7 +33,7 @@ namespace MovieRental.Application.Services
                 throw new ArgumentNullException("Movie not found!");
             return _mapper.Map<ReadMovieDto>(movie);
         }
-        public async Task AddMovie(CreateMovieDto movieDto)
+        public async Task AddMovie(CreateMovieDto movieDto) // chyba mozna dodac sprawdzanie czy podany aktor jest juz w bazie
         {
             bool movieExist = await _movieRepository.IsMovieWithTitle(movieDto.Title);
             if (movieExist)

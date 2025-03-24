@@ -12,20 +12,24 @@ namespace MovieRental.Application.Services
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IPasswordHasher<Employee> _passwordHasher;
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
-        public EmployeeService(IEmployeeRepository employeeRepository, IPasswordHasher<Employee> passwordHasher, IMapper mapper)
+        public EmployeeService(IEmailService emailService, IEmployeeRepository employeeRepository, IPasswordHasher<Employee> passwordHasher, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
             _passwordHasher = passwordHasher;
+            _emailService = emailService;
             _mapper = mapper;
         }
         public async Task AddEmployee(CreateEmployeeDto employeeDto)
         {
             if (!Enum.IsDefined(typeof(Role), employeeDto.Role))
                 throw new ArgumentException("Invalid role value.");
-
+            var tempPassword = Guid.NewGuid().ToString().Substring(0,8);
             var employee = _mapper.Map<Employee>(employeeDto);
             await _employeeRepository.AddEmployee(employee);
+            var emailBody = $"Witaj {employee.FirstName}, twoje tymczasowe hasło to: {tempPassword}";
+            await _emailService.SendEmail(employeeDto.Email, "Twoje nowe konto", emailBody);
         }
         public async Task<Employee> Login(LoginDto loginDto)
         {
