@@ -1,4 +1,5 @@
-﻿using MovieRental.Application.Dtos.Authentication;
+﻿using AutoMapper.Configuration.Conventions;
+using MovieRental.Application.Dtos.Authentication;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Domain.Entities;
 using System;
@@ -13,5 +14,6 @@ namespace MovieRental.Application.Interfaces
     {
         Task AddEmployee(CreateEmployeeDto employee);
         Task<Employee> Login(LoginDto loginDto);
+        Task ActivateAccount(int employeeId);
     }
 }

@@ -28,19 +28,28 @@ namespace MovieRental.Application.Services
             var tempPassword = Guid.NewGuid().ToString().Substring(0,8);
             var employee = _mapper.Map<Employee>(employeeDto);
             await _employeeRepository.AddEmployee(employee);
-            var emailBody = $"Witaj {employee.FirstName}, twoje tymczasowe hasło to: {tempPassword}";
+            var emailBody = $"Witaj {employee.FirstName}, aby aktywować swoje konto naciśnij ten link: http://localhost:5178/employees/activate/{employee.Id}. Twoje tymczasowe hasło to: {tempPassword}";
             await _emailService.SendEmail(employeeDto.Email, "Twoje nowe konto", emailBody);
         }
         public async Task<Employee> Login(LoginDto loginDto)
         {
             var employee = await _employeeRepository.GetEmployeeByEmail(loginDto.Email);
-            if (employee == null)
-                throw new ArgumentNullException("Invalid email or password");
+            if (employee == null || employee.IsActive == false)
+                throw new UnauthorizedAccessException("Invalid email or password");
 
             var result = _passwordHasher.VerifyHashedPassword(employee, employee.Password, loginDto.Password);
             if (result == PasswordVerificationResult.Failed)
-                throw new ArgumentNullException("Invalid email or password");
+                throw new UnauthorizedAccessException("Invalid email or password");
             return employee;
+        }
+        public async Task ActivateAccount(int employeeId)
+        {
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found!");
+
+            employee.IsActive = true;
+            await _employeeRepository.UpdateEmployee(employee);
         }
     }
 }
