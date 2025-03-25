@@ -14,5 +14,6 @@ namespace MovieRental.Application.Interfaces
         Task<ReadMovieDto> GetMovie(int movieId);
         Task AddMovie(CreateMovieDto movieDto);
         Task UpdateMovie(int movieId, UpdateMovieDto movieDto);
+        Task DeleteMovie(int movieId);
     }
 }

@@ -95,5 +95,21 @@ namespace MovieRental.API.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpDelete("{movieId}")]
+        //[Authorize(Roles ="Admin, Employee")]
+        public async Task<IActionResult> DeleteMovie([FromRoute] int movieId)
+        {
+            try
+            {
+                await _movieService.DeleteMovie(movieId);
+                return Ok();
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
     }
 }

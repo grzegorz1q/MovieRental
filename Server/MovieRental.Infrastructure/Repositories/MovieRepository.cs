@@ -27,11 +27,12 @@ namespace MovieRental.Infrastructure.Repositories
         public async Task DeleteMovie(int id)
         {
             var movie = await GetMovie(id);
-            if (movie != null)
+            if (movie == null)
             {
-                _appDbContext.Movies.Remove(movie);
-                await _appDbContext.SaveChangesAsync();
+                throw new KeyNotFoundException("Movie not found");
             }
+            _appDbContext.Movies.Remove(movie);
+            await _appDbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Movie>> GetAllMovies()
