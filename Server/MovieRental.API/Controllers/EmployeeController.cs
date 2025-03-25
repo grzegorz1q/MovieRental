@@ -37,5 +37,23 @@ namespace MovieRental.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        /// <summary>
+        /// Aktywacja konta
+        /// </summary>
+        [HttpGet("activate/{employeeId}")]
+        public async Task<IActionResult> ActivateAccount([FromRoute] int employeeId)
+        {
+            try
+            {
+                await _employeeService.ActivateAccount(employeeId);
+                return Ok();
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+            
+        }
     }
 }

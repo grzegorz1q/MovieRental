@@ -53,5 +53,9 @@ namespace MovieRental.Application.Services
             _mapper.Map(movieDto, movie);
             await _movieRepository.UpdateMovie(movie);
         }
+        public async Task DeleteMovie(int movieId)
+        {
+            await _movieRepository.DeleteMovie(movieId);
+        }
     }
 }

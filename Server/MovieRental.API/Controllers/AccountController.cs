@@ -27,8 +27,9 @@ namespace MovieRental.API.Controllers
                 var token = _jwtService.GenerateToken(employee);
                 return Ok(token);
             }
-            catch(ArgumentNullException ex)
+            catch(UnauthorizedAccessException ex)
             {
+                Console.WriteLine(ex.Message);
                 return Unauthorized(ex.Message);
             }
         }
