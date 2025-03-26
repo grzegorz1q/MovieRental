@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Interfaces;
+using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace MovieRental.API.Controllers
 {
@@ -54,6 +56,40 @@ namespace MovieRental.API.Controllers
                 return NotFound(ex.Message);
             }
             
+        }
+        /// <summary>
+        /// Resetowanie hasła zalogowanego użytkownika (Admin, Employee)
+        /// </summary>
+        [HttpPost("reset-password")]
+        [Authorize]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        {
+            try
+            {
+                var employeeIdClaim = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                if (employeeIdClaim == null)
+                {
+                    return Unauthorized("Employees's ID is missing in the token.");
+                }
+                var employeeId = int.Parse(employeeIdClaim);
+                await _employeeService.ResetPassword(employeeId, resetPasswordDto);
+                return Ok(resetPasswordDto);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+            catch(ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

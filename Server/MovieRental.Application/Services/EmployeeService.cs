@@ -5,6 +5,7 @@ using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Interfaces;
 using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
+using System.Security.Claims;
 
 namespace MovieRental.Application.Services
 {
@@ -27,6 +28,7 @@ namespace MovieRental.Application.Services
                 throw new ArgumentException("Invalid role value.");
             var tempPassword = Guid.NewGuid().ToString().Substring(0,8);
             var employee = _mapper.Map<Employee>(employeeDto);
+            employee.Password = tempPassword;
             await _employeeRepository.AddEmployee(employee);
             var emailBody = $"Witaj {employee.FirstName}, aby aktywować swoje konto naciśnij ten link: http://localhost:5178/employees/activate/{employee.Id}. Twoje tymczasowe hasło to: {tempPassword}";
             await _emailService.SendEmail(employeeDto.Email, "Twoje nowe konto", emailBody);
@@ -49,6 +51,19 @@ namespace MovieRental.Application.Services
                 throw new KeyNotFoundException("Employee not found!");
 
             employee.IsActive = true;
+            await _employeeRepository.UpdateEmployee(employee);
+        }
+        public async Task ResetPassword(int employeeId, ResetPasswordDto resetPasswordDto)
+        {
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found!");
+            var oldPassword = _passwordHasher.VerifyHashedPassword(employee, employee.Password, resetPasswordDto.OldPassword);
+            if (oldPassword == PasswordVerificationResult.Failed)
+                throw new UnauthorizedAccessException("Incorrect old password");
+            if (resetPasswordDto.NewPassword != resetPasswordDto.ConfirmPassword)
+                throw new ArgumentException("New password and confirmation password do not match!");
+            employee.Password = _passwordHasher.HashPassword(employee, resetPasswordDto.NewPassword);
             await _employeeRepository.UpdateEmployee(employee);
         }
     }
