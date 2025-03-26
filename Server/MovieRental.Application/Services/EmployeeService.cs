@@ -66,5 +66,16 @@ namespace MovieRental.Application.Services
             employee.Password = _passwordHasher.HashPassword(employee, resetPasswordDto.NewPassword);
             await _employeeRepository.UpdateEmployee(employee);
         }
+        public async Task ForgotPassword(string email)
+        {
+            var employee = await _employeeRepository.GetEmployeeByEmail(email);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee with given email not exist in the database");
+            var tempPassword = Guid.NewGuid().ToString().Substring(0, 8);
+            employee.Password = _passwordHasher.HashPassword(employee, tempPassword);
+            await _employeeRepository.UpdateEmployee(employee);
+            var emailBody = $"Witaj {employee.FirstName}, operacja resetowania hasła przebiegła pomyślnie. Twoje tymczasowe hasło to: {tempPassword}";
+            await _emailService.SendEmail(email, "Resetowanie hasła", emailBody);
+        }
     }
 }
