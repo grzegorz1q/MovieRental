@@ -10,7 +10,7 @@ namespace MovieRental.Domain.Entities
     {
         public int Id { get; set; }
         public DateTime RentDate { get; set; } = DateTime.Now;
-        public DateTime ReturnDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
         public Movie Movie { get; set; } = default!;
         public int MovieId { get; set; }
         public Client Client { get; set; } = default!;

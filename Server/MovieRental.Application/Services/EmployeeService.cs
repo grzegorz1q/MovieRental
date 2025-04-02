@@ -71,6 +71,7 @@ namespace MovieRental.Application.Services
             var employee = await _employeeRepository.GetEmployeeByEmail(email);
             if (employee == null)
                 throw new KeyNotFoundException("Employee with given email not exist in the database");
+
             var tempPassword = Guid.NewGuid().ToString().Substring(0, 8);
             employee.Password = _passwordHasher.HashPassword(employee, tempPassword);
             await _employeeRepository.UpdateEmployee(employee);

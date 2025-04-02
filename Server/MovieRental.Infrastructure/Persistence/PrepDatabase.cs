@@ -26,7 +26,16 @@ namespace MovieRental.Infrastructure.Persistence
                     _appDbContext.SaveChanges();
                 }
             }
-            
+            if (_appDbContext.Database.CanConnect())
+            {
+                if (!_appDbContext.Clients.Any())
+                {
+                    var clients = AddClients();
+                    _appDbContext.Clients.AddRange(clients);
+                    _appDbContext.SaveChanges();
+                }
+            }
+
         }
         private IEnumerable<Movie> AddMovies()
         {
@@ -36,6 +45,15 @@ namespace MovieRental.Infrastructure.Persistence
                 new Movie(){Title = "Irlandczyk", Description="Płatny zabójca Frank Sheeran powraca do sekretów, których strzegł jako lojalny członek rodziny przestępczej Bufalino.", Director="Martin Scorsese", ReleaseDate=DateTime.Parse("2019-11-01"), Count=15, IsAvailable=true}
             };
             return movies;
+        }
+        private IEnumerable<Client> AddClients()
+        {
+            var clients = new List<Client>()
+            {
+                new Client(){FirstName = "Jan", LastName="Kowalski", Address="Czestochowa", PhoneNumber=987899765},
+                new Client(){FirstName = "Adam", LastName="Nowak", Address="Warszawa", PhoneNumber=223454321}
+            };
+            return clients;
         }
     }
 }

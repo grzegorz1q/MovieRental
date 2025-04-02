@@ -96,8 +96,11 @@ namespace MovieRental.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Usuwa film o podanym id (Admin, Employee)
+        /// </summary>
         [HttpDelete("{movieId}")]
-        //[Authorize(Roles ="Admin, Employee")]
+        [Authorize(Roles ="Admin, Employee")]
         public async Task<IActionResult> DeleteMovie([FromRoute] int movieId)
         {
             try
