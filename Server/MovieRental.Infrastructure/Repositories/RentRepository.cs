@@ -49,5 +49,9 @@ namespace MovieRental.Infrastructure.Repositories
             _appDbContext.Rents.Update(rent);
             await _appDbContext.SaveChangesAsync();
         }
+        public async Task<IEnumerable<Rent>> GetClientRents(int clientId)
+        {
+            return await _appDbContext.Rents.Where(r => r.ClientId == clientId).ToListAsync();
+        }
     }
 }

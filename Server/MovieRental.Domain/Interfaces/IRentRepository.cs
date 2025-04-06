@@ -14,5 +14,6 @@ namespace MovieRental.Domain.Interfaces
         Task<Rent?> GetRent(int id);
         Task UpdateRent(Rent rent);
         Task DeleteRent(int id);
+        Task<IEnumerable<Rent>> GetClientRents(int clientId);
     }
 }

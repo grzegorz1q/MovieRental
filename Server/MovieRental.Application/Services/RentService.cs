@@ -36,9 +36,15 @@ namespace MovieRental.Application.Services
 
             var rent = _mapper.Map<Rent>(createRentDto);
 
-            //TODO: Dodac sprawdzanie czy juz ma wypozyczony film
+            //Sprawdzanie czy ma już wypożyczony ten film
+            var clientRents = await _rentRepository.GetClientRents(client.Id);
+            if(clientRents.Any(r => r.MovieId == movie.Id && (r.ReturnDate == null || r.ReturnDate > DateTime.Now)))
+                throw new ArgumentException("Selected client currently has this movie on rent!");
 
             await _rentRepository.AddRent(rent);
+
+            movie.Count--;
+            await _movieRepository.UpdateMovie(movie);
         }
     }
 }

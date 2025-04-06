@@ -15,7 +15,7 @@ namespace MovieRental.API.Controllers
         }
 
         /// <summary>
-        /// Dodaje recenzję
+        /// Dodaje wypożyczenie
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> AddRent(CreateRentDto createRentDto)
@@ -29,6 +29,11 @@ namespace MovieRental.API.Controllers
             {
                 Console.WriteLine(ex.Message);
                 return NotFound(ex.Message);
+            }
+            catch(ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
     }
