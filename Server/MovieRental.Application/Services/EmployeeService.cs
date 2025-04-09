@@ -78,5 +78,15 @@ namespace MovieRental.Application.Services
             var emailBody = $"Witaj {employee.FirstName}, operacja resetowania hasła przebiegła pomyślnie. Twoje tymczasowe hasło to: {tempPassword}";
             await _emailService.SendEmail(email, "Resetowanie hasła", emailBody);
         }
+        public async Task<ReadEmployeeDto> UpdateEmail(int employeeId, UpdateEmailDto emailDto)
+        {
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found!");
+
+            employee.Email = emailDto.Email;
+            await _employeeRepository.UpdateEmployee(employee);
+            return _mapper.Map<ReadEmployeeDto>(employee);
+        }
     }
 }

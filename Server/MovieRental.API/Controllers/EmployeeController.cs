@@ -109,5 +109,27 @@ namespace MovieRental.API.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpPatch("email")]
+        [Authorize]
+        public async Task<IActionResult> UpdateEmail(UpdateEmailDto emailDto)
+        {
+            try
+            {
+                var employeeIdClaim = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                if (employeeIdClaim == null)
+                {
+                    return Unauthorized("Employees's ID is missing in the token.");
+                }
+                var employeeId = int.Parse(employeeIdClaim);
+                var employee = await _employeeService.UpdateEmail(employeeId, emailDto);
+                return Ok(employee);
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
     }
 }

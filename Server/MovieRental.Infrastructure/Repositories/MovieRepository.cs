@@ -37,12 +37,12 @@ namespace MovieRental.Infrastructure.Repositories
 
         public async Task<IEnumerable<Movie>> GetAllMovies()
         {
-            return await _appDbContext.Movies.ToListAsync();
+            return await _appDbContext.Movies.Include(m => m.Actors).ToListAsync();
         }
 
         public async Task<Movie?> GetMovie(int id)
         {
-            return await _appDbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
+            return await _appDbContext.Movies.Include(m => m.Actors).FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task UpdateMovie(Movie movie)

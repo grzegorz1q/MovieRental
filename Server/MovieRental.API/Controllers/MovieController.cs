@@ -89,7 +89,7 @@ namespace MovieRental.API.Controllers
                 await _movieService.UpdateMovie(movieId, movieDto);
                 return Ok(movieDto);
             }
-            catch (ArgumentNullException ex)
+            catch (KeyNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
                 return NotFound(ex.Message);
