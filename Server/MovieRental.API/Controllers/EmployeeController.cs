@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Interfaces;
+using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace MovieRental.API.Controllers
 {
@@ -54,6 +56,80 @@ namespace MovieRental.API.Controllers
                 return NotFound(ex.Message);
             }
             
+        }
+        /// <summary>
+        /// Resetowanie hasła zalogowanego użytkownika (Admin, Employee)
+        /// </summary>
+        [HttpPost("reset-password")]
+        [Authorize]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        {
+            try
+            {
+                var employeeIdClaim = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                if (employeeIdClaim == null)
+                {
+                    return Unauthorized("Employees's ID is missing in the token.");
+                }
+                var employeeId = int.Parse(employeeIdClaim);
+                await _employeeService.ResetPassword(employeeId, resetPasswordDto);
+                return Ok(resetPasswordDto);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+            catch(ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Resetowanie hasła, gdy użytkownik go zapomni. Zostaje wysyłany mail z hasłem tymczasowym
+        /// </summary>
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            try
+            {
+                await _employeeService.ForgotPassword(email);
+                return Ok("Email with temporary password successully sent");
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPatch("email")]
+        [Authorize]
+        public async Task<IActionResult> UpdateEmail(UpdateEmailDto emailDto)
+        {
+            try
+            {
+                var employeeIdClaim = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                if (employeeIdClaim == null)
+                {
+                    return Unauthorized("Employees's ID is missing in the token.");
+                }
+                var employeeId = int.Parse(employeeIdClaim);
+                var employee = await _employeeService.UpdateEmail(employeeId, emailDto);
+                return Ok(employee);
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
         }
     }
 }

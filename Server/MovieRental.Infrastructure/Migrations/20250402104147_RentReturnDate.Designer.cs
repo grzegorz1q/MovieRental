@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieRental.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MovieRental.Infrastructure.Persistence;
 namespace MovieRental.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250402104147_RentReturnDate")]
+    partial class RentReturnDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace MovieRental.Infrastructure.Migrations
 
                     b.HasIndex("MoviesId");
 
-                    b.ToTable("ActorMovie", (string)null);
+                    b.ToTable("ActorMovie");
                 });
 
             modelBuilder.Entity("MovieRental.Domain.Entities.Actor", b =>
@@ -152,7 +155,7 @@ namespace MovieRental.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies", (string)null);
+                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("MovieRental.Domain.Entities.Rent", b =>
@@ -181,7 +184,7 @@ namespace MovieRental.Infrastructure.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Rents", (string)null);
+                    b.ToTable("Rents");
                 });
 
             modelBuilder.Entity("MovieRental.Domain.Entities.Review", b =>
@@ -206,7 +209,7 @@ namespace MovieRental.Infrastructure.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("ActorMovie", b =>

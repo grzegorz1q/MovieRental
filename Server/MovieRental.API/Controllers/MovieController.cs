@@ -89,15 +89,18 @@ namespace MovieRental.API.Controllers
                 await _movieService.UpdateMovie(movieId, movieDto);
                 return Ok(movieDto);
             }
-            catch (ArgumentNullException ex)
+            catch (KeyNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
                 return NotFound(ex.Message);
             }
         }
 
+        /// <summary>
+        /// Usuwa film o podanym id (Admin, Employee)
+        /// </summary>
         [HttpDelete("{movieId}")]
-        //[Authorize(Roles ="Admin, Employee")]
+        [Authorize(Roles ="Admin, Employee")]
         public async Task<IActionResult> DeleteMovie([FromRoute] int movieId)
         {
             try

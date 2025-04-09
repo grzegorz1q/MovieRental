@@ -46,7 +46,7 @@ namespace MovieRental.API.Controllers
                 var reviews = await _reviewService.GetAllMovieReviews(movieId);
                 return Ok(reviews);
             }
-            catch(ArgumentNullException ex)
+            catch(KeyNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
                 return NotFound(ex.Message);

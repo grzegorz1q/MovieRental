@@ -37,7 +37,7 @@ namespace MovieRental.Application.Services
         {
             var movie = await _movieRepository.GetMovie(movieId);
             if (movie == null)
-                throw new ArgumentNullException("Movie not found");
+                throw new KeyNotFoundException("Movie not found");
 
             var reviews = await _reviewRepository.GetAllMovieReviews(movieId);
             return _mapper.Map<IEnumerable<ReadReviewDto>>(reviews);
