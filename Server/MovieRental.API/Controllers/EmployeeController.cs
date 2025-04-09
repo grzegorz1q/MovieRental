@@ -17,7 +17,7 @@ namespace MovieRental.API.Controllers
             _employeeService = employeeService;
         }
         /// <summary>
-        /// Dodaje pracownika (Admin)
+        /// Dodaje pracownika - Admin
         /// </summary>
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -58,7 +58,7 @@ namespace MovieRental.API.Controllers
             
         }
         /// <summary>
-        /// Resetowanie hasła zalogowanego użytkownika (Admin, Employee)
+        /// Resetowanie hasła zalogowanego użytkownika - Admin, Employee
         /// </summary>
         [HttpPost("reset-password")]
         [Authorize]
@@ -110,6 +110,9 @@ namespace MovieRental.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Aktualizacja emaila zalogowanego użytkownika - Admin, Employee
+        /// </summary>
         [HttpPatch("email")]
         [Authorize]
         public async Task<IActionResult> UpdateEmail(UpdateEmailDto emailDto)
@@ -126,6 +129,66 @@ namespace MovieRental.API.Controllers
                 return Ok(employee);
             }
             catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Zwraca listę wszystkich pracowników - Admin
+        /// </summary>
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllEmployees()
+        {
+            try
+            {
+                var employees = await _employeeService.GetAllEmployees();
+                return Ok(employees);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Zwraca pracownika o podanym id - Admin
+        /// </summary>
+        [HttpGet("{employeeId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetEmployeeById([FromRoute] int employeeId)
+        {
+            try
+            {
+                var employee = await _employeeService.GetEmployee(employeeId);
+                return Ok(employee);
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Zwraca zalogowanego pracownika - Admin, Employee
+        /// </summary>
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetLoggedEmployee()
+        {
+            try
+            {
+                var employeeIdClaim = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                if (employeeIdClaim == null)
+                {
+                    return Unauthorized("Employees's ID is missing in the token.");
+                }
+                var employeeId = int.Parse(employeeIdClaim);
+                var employee = await _employeeService.GetEmployee(employeeId);
+                return Ok(employee);
+            }
+            catch (KeyNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
                 return NotFound(ex.Message);

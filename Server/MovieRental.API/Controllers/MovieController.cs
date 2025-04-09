@@ -54,7 +54,7 @@ namespace MovieRental.API.Controllers
             }
         }
         /// <summary>
-        /// Dodaje film (Admin, Employee)
+        /// Dodaje film - Admin, Employee
         /// </summary>
         [HttpPost]
         [Authorize(Roles = "Admin, Employee")]
@@ -78,7 +78,7 @@ namespace MovieRental.API.Controllers
         }
 
         /// <summary>
-        /// Aktualizuje film o podanym id (Admin, Employee)
+        /// Aktualizuje film o podanym id - Admin, Employee
         /// </summary>
         [HttpPut("{movieId}")]
         [Authorize(Roles = "Admin, Employee")]
@@ -97,7 +97,7 @@ namespace MovieRental.API.Controllers
         }
 
         /// <summary>
-        /// Usuwa film o podanym id (Admin, Employee)
+        /// Usuwa film o podanym id - Admin, Employee
         /// </summary>
         [HttpDelete("{movieId}")]
         [Authorize(Roles ="Admin, Employee")]

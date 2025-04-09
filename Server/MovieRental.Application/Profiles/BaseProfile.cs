@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MovieRental.Application.Dtos.Actor;
+using MovieRental.Application.Dtos.Client;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Dtos.Movie;
 using MovieRental.Application.Dtos.Rent;
@@ -43,6 +44,9 @@ namespace MovieRental.Application.Profiles
 
             //------RENTS------
             CreateMap<CreateRentDto, Rent>();
+
+            //------CLIENTS------
+            CreateMap<CreateClientDto, Client>();
         }
     }
 }

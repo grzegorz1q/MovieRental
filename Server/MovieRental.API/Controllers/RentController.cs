@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieRental.Application.Dtos.Rent;
 using MovieRental.Application.Interfaces;
 
@@ -15,9 +16,10 @@ namespace MovieRental.API.Controllers
         }
 
         /// <summary>
-        /// Dodaje wypożyczenie
+        /// Dodaje wypożyczenie - Admin, Employee
         /// </summary>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddRent(CreateRentDto createRentDto)
         {
             try
@@ -37,9 +39,10 @@ namespace MovieRental.API.Controllers
             }
         }
         /// <summary>
-        /// Usuwa wypożyczenie(zwrot filmu)
+        /// Usuwa wypożyczenie(zwrot filmu) - Admin, Employee
         /// </summary>
         [HttpDelete("{rentId}")]
+        [Authorize]
         public async Task<IActionResult> ReturnMovie([FromRoute] int rentId)
         {
             try

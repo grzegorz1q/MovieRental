@@ -48,5 +48,9 @@ namespace MovieRental.Infrastructure.Repositories
             _appDbContext.Clients.Update(client);
             await _appDbContext.SaveChangesAsync();
         }
+        public async Task<bool> IsClientWithPhoneNumber(int phoneNumber)
+        {
+            return await _appDbContext.Clients.AnyAsync(c => c.PhoneNumber == phoneNumber);
+        }
     }
 }
