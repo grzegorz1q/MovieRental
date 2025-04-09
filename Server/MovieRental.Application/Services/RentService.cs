@@ -46,5 +46,9 @@ namespace MovieRental.Application.Services
             movie.Count--;
             await _movieRepository.UpdateMovie(movie);
         }
+        public async Task ReturnMovie(int rentId)
+        {
+            await _rentRepository.DeleteRent(rentId);
+        }
     }
 }

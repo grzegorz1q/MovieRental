@@ -36,5 +36,22 @@ namespace MovieRental.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        /// <summary>
+        /// Usuwa wypożyczenie(zwrot filmu)
+        /// </summary>
+        [HttpDelete("{rentId}")]
+        public async Task<IActionResult> ReturnMovie([FromRoute] int rentId)
+        {
+            try
+            {
+                await _rentService.ReturnMovie(rentId);
+                return Ok("Movie successfully returned!");
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
     }
 }

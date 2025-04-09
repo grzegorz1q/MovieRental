@@ -10,5 +10,6 @@ namespace MovieRental.Application.Interfaces
     public interface IRentService
     {
         Task AddRent(CreateRentDto createRentDto);
+        Task ReturnMovie(int rentId);
     }
 }
