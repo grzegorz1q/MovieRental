@@ -88,5 +88,17 @@ namespace MovieRental.Application.Services
             await _employeeRepository.UpdateEmployee(employee);
             return _mapper.Map<ReadEmployeeDto>(employee);
         }
+        public async Task<IEnumerable<ReadEmployeeDto>> GetAllEmployees()
+        {
+            var employees = await _employeeRepository.GetAllEmployees();
+            return _mapper.Map<IEnumerable<ReadEmployeeDto>>(employees);
+        }
+        public async Task<ReadEmployeeDto> GetEmployee(int employeeId)
+        {
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found!");
+            return _mapper.Map<ReadEmployeeDto>(employee);
+        }
     }
 }

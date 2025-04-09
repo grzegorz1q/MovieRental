@@ -40,7 +40,7 @@ namespace MovieRental.Infrastructure.Repositories
 
         public async Task<IEnumerable<Employee>> GetAllEmployees()
         {
-            return await _appDbContext.Employees.ToListAsync();
+            return await _appDbContext.Employees.Where(e => e.IsActive == true).ToListAsync();
         }
 
         public async Task<Employee?> GetEmployee(int id)
