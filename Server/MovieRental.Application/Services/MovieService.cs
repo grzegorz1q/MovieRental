@@ -39,7 +39,7 @@ namespace MovieRental.Application.Services
         {
             bool movieExist = await _movieRepository.IsMovieWithTitle(movieDto.Title);
             if (movieExist)
-                throw new ArgumentException("Movie with the given title is already in the database");
+                throw new ArgumentException("Movie with the given title is already in the database!");
             
             var movie = _mapper.Map<Movie>(movieDto);
             await _movieRepository.AddMovie(movie);
