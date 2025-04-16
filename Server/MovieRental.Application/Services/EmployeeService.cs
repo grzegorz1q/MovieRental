@@ -100,5 +100,13 @@ namespace MovieRental.Application.Services
                 throw new KeyNotFoundException("Employee not found!");
             return _mapper.Map<ReadEmployeeDto>(employee);
         }
+        public async Task ChangeRole(int employeeId, Role role)
+        {
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found!;");
+            employee.Role = role;
+            await _employeeRepository.UpdateEmployee(employee);
+        }
     }
 }

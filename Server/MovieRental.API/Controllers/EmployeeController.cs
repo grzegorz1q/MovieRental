@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Interfaces;
+using MovieRental.Domain.Entities;
 using System.Linq.Expressions;
 using System.Security.Claims;
 
@@ -189,6 +190,22 @@ namespace MovieRental.API.Controllers
                 return Ok(employee);
             }
             catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPatch("roles/{employeeId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GrantAdmin([FromRoute] int employeeId, [FromBody] ChangeRoleDto changeRoleDto)
+        {
+            try
+            {
+                await _employeeService.ChangeRole(employeeId, changeRoleDto.Role);
+                return Ok($"Soccessfully changed selected employee's role to {changeRoleDto.Role.ToString()}");
+            }
+            catch(KeyNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
                 return NotFound(ex.Message);

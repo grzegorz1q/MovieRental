@@ -20,5 +20,6 @@ namespace MovieRental.Application.Interfaces
         Task<ReadEmployeeDto> UpdateEmail(int employeeId, UpdateEmailDto emailDto);
         Task<IEnumerable<ReadEmployeeDto>> GetAllEmployees();
         Task<ReadEmployeeDto> GetEmployee(int employeeId);
+        Task ChangeRole(int employeeId, Role role);
     }
 }
