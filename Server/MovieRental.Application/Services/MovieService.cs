@@ -42,6 +42,18 @@ namespace MovieRental.Application.Services
                 throw new ArgumentException("Movie with the given title is already in the database!");
             
             var movie = _mapper.Map<Movie>(movieDto);
+            movie.Actors = new List<Actor>();
+            foreach(var actorDto in movieDto.Actors)
+            {
+                var existingActor = await _actorRepository.GetActorByName(actorDto.FirstName, actorDto.LastName);
+                if (existingActor != null)
+                    movie.Actors.Add(existingActor);
+                else
+                {
+                    var newActor = _mapper.Map<Actor>(actorDto);
+                    movie.Actors.Add(newActor);
+                }
+            }
             await _movieRepository.AddMovie(movie);
         }
         public async Task UpdateMovie(int movieId, UpdateMovieDto movieDto)
