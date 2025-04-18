@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
 using MovieRental.Infrastructure.Persistence;
@@ -13,13 +14,16 @@ namespace MovieRental.Infrastructure.Repositories
     public class ClientRepository : IClientRepository
     {
         private readonly AppDbContext _appDbContext;
-        public ClientRepository(AppDbContext appDbContext)
+        private readonly IPasswordHasher<Client> _passwordHasher;
+        public ClientRepository(AppDbContext appDbContext, IPasswordHasher<Client> passwordHasher)
         {
             _appDbContext = appDbContext;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task AddClient(Client client)
         {
+            client.Password = _passwordHasher.HashPassword(client, client.Password);
             await _appDbContext.Clients.AddAsync(client);
             await _appDbContext.SaveChangesAsync();
         }
@@ -51,6 +55,13 @@ namespace MovieRental.Infrastructure.Repositories
         public async Task<bool> IsClientWithPhoneNumber(int phoneNumber)
         {
             return await _appDbContext.Clients.AnyAsync(c => c.PhoneNumber == phoneNumber);
+        }public async Task<bool> IsClientWithEmail(string email)
+        {
+            return await _appDbContext.Clients.AnyAsync(c => c.Email == email);
         }
+        /*public async Task<Client?> GetClientByEmail(string email)
+        {
+            return await _appDbContext.Clients.FirstOrDefaultAsync(c => c.Email == email);
+        }*/
     }
 }

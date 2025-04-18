@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieRental.Application.Interfaces
+namespace MovieRental.Application.Dtos.Employee
 {
-    public interface IJwtService
+    public class ChangeRoleDto
     {
-        string GenerateToken(Person person);
+        public Role Role { get; set; }
     }
 }

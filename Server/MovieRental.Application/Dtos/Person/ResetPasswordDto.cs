@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieRental.Application.Dtos.Employee
+namespace MovieRental.Application.Dtos.Person
 {
     public class ResetPasswordDto
     {

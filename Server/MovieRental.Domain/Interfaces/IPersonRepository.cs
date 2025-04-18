@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieRental.Application.Interfaces
+namespace MovieRental.Domain.Interfaces
 {
-    public interface IJwtService
+    public interface IPersonRepository
     {
-        string GenerateToken(Person person);
+        Task<Person?> GetPerson(int id);
+        Task<Person?> GetPersonByEmail(string email);
     }
 }
