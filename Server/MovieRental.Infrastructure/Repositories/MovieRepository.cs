@@ -1,4 +1,5 @@
-﻿using MovieRental.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
 using MovieRental.Infrastructure.Persistence;
 using System;
@@ -26,26 +27,32 @@ namespace MovieRental.Infrastructure.Repositories
         public async Task DeleteMovie(int id)
         {
             var movie = await GetMovie(id);
-            if (movie != null)
+            if (movie == null)
             {
-                _appDbContext.Movies.Remove(movie);
-                await _appDbContext.SaveChangesAsync();
+                throw new KeyNotFoundException("Movie not found");
             }
+            _appDbContext.Movies.Remove(movie);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Movie>> GetAllMovies()
+        public async Task<IEnumerable<Movie>> GetAllMovies()
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Movies.Include(m => m.Actors).ToListAsync();
         }
 
-        public Task<Movie> GetMovie(int id)
+        public async Task<Movie?> GetMovie(int id)
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Movies.Include(m => m.Actors).FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public Task UpdateMovie(Movie movie)
+        public async Task UpdateMovie(Movie movie)
         {
-            throw new NotImplementedException();
+            _appDbContext.Movies.Update(movie);
+            await _appDbContext.SaveChangesAsync();
+        }
+        public async Task<bool> IsMovieWithTitle(string title)
+        {
+            return await _appDbContext.Movies.AnyAsync(m => m.Title == title);
         }
     }
 }
