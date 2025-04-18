@@ -10,5 +10,6 @@ namespace MovieRental.Application.Interfaces
     public interface IClientService
     {
         Task AddClient(CreateClientDto createClientDto);
+        //Task Register()
     }
 }

@@ -33,17 +33,6 @@ namespace MovieRental.Application.Services
             var emailBody = $"Witaj {employee.FirstName}, aby aktywować swoje konto naciśnij ten link: http://localhost:5178/employees/activate/{employee.Id}. Twoje tymczasowe hasło to: {tempPassword}";
             await _emailService.SendEmail(employeeDto.Email, "Twoje nowe konto", emailBody);
         }
-        public async Task<Employee> Login(LoginDto loginDto)
-        {
-            var employee = await _employeeRepository.GetEmployeeByEmail(loginDto.Email);
-            if (employee == null || employee.IsActive == false)
-                throw new UnauthorizedAccessException("Invalid email or password");
-
-            var result = _passwordHasher.VerifyHashedPassword(employee, employee.Password, loginDto.Password);
-            if (result == PasswordVerificationResult.Failed)
-                throw new UnauthorizedAccessException("Invalid email or password");
-            return employee;
-        }
         public async Task ActivateAccount(int employeeId)
         {
             var employee = await _employeeRepository.GetEmployee(employeeId);

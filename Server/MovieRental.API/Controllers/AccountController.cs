@@ -8,11 +8,11 @@ namespace MovieRental.API.Controllers
     [Route("account")]
     public class AccountController : ControllerBase
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IAccountService _accountService;
         private readonly IJwtService _jwtService;
-        public AccountController(IEmployeeService employeeService, IJwtService jwtService)
+        public AccountController(IAccountService accountService, IJwtService jwtService)
         {
-            _employeeService = employeeService;
+            _accountService = accountService;
             _jwtService = jwtService;
         }
         /// <summary>
@@ -23,8 +23,8 @@ namespace MovieRental.API.Controllers
         {
             try
             {
-                var employee = await _employeeService.Login(loginDto);
-                var token = _jwtService.GenerateToken(employee);
+                var person = await _accountService.Login(loginDto);
+                var token = _jwtService.GenerateToken(person);
                 return Ok(token);
             }
             catch(UnauthorizedAccessException ex)
