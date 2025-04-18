@@ -17,7 +17,7 @@ namespace MovieRental.Application.Services
             _emailService = emailService;
             _mapper = mapper;
         }
-        public async Task AddClient(CreateClientDto createClientDto)
+        public async Task AddClient(CreateClientDto createClientDto) // Pracownik dodaje klienta
         {
             bool clientExist = await _clientRepository.IsClientWithPhoneNumber(createClientDto.PhoneNumber);
             if (clientExist)
@@ -28,7 +28,6 @@ namespace MovieRental.Application.Services
             await _clientRepository.AddClient(client);
             var emailBody = $"Witaj {client.FirstName}. Jesteś nowym klientem wypożyczalni filmów. Twoje tymczasowe hasło to: {tempPassword}";
             await _emailService.SendEmail(client.Email, "Twoje nowe konto", emailBody);
-            
         }
     }
 }

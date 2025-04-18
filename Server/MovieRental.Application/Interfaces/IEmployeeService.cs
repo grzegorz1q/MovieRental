@@ -13,7 +13,6 @@ namespace MovieRental.Application.Interfaces
     public interface IEmployeeService
     {
         Task AddEmployee(CreateEmployeeDto employee);
-        Task<Employee> Login(LoginDto loginDto);
         Task ActivateAccount(int employeeId);
         Task ResetPassword(int employeeId, ResetPasswordDto resetPasswordDto);
         Task ForgotPassword(string email);
