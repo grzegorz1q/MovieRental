@@ -55,6 +55,9 @@ namespace MovieRental.Infrastructure.Repositories
         public async Task<bool> IsClientWithPhoneNumber(int phoneNumber)
         {
             return await _appDbContext.Clients.AnyAsync(c => c.PhoneNumber == phoneNumber);
+        }public async Task<bool> IsClientWithEmail(string email)
+        {
+            return await _appDbContext.Clients.AnyAsync(c => c.Email == email);
         }
         /*public async Task<Client?> GetClientByEmail(string email)
         {

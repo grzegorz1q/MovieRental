@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using MovieRental.Application.Dtos.Authentication;
+using MovieRental.Application.Dtos.Client;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Dtos.Person;
 using MovieRental.Application.Interfaces;
@@ -119,6 +120,17 @@ namespace MovieRental.Application.Services
                 return _mapper.Map<ReadPersonDto>(client);
 
             throw new KeyNotFoundException("Person not found!");
+        }
+        public async Task Register(CreateClientDto createClientDto)
+        {
+            bool clientWithPhoneNumberExist = await _clientRepository.IsClientWithPhoneNumber(createClientDto.PhoneNumber);
+            bool clientWithEmailExist = await _clientRepository.IsClientWithEmail(createClientDto.Email);
+            if (clientWithPhoneNumberExist || clientWithEmailExist)
+                throw new ArgumentException("Client with given phone number or email is already in database!");
+            if (createClientDto.Password != createClientDto.ConfirmPassword)
+                throw new ArgumentException("Password and confirmation password do not match!");
+            var client = _mapper.Map<Client>(createClientDto);
+            await _clientRepository.AddClient(client);
         }
     }
 }

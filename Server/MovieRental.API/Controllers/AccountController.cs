@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieRental.Application.Dtos.Authentication;
+using MovieRental.Application.Dtos.Client;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Dtos.Person;
 using MovieRental.Application.Interfaces;
@@ -36,6 +37,23 @@ namespace MovieRental.API.Controllers
             {
                 Console.WriteLine(ex.Message);
                 return Unauthorized(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Rejestracja (Klient może sam utworzyć sobie konto)
+        /// </summary>
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(CreateClientDto createClientDto)
+        {
+            try
+            {
+                await _accountService.Register(createClientDto);
+                return Ok("Successfully created new client account!");
+            }
+            catch(ArgumentException ex) 
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
         /// <summary>
