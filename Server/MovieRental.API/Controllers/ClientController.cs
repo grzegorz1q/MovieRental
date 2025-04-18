@@ -18,7 +18,7 @@ namespace MovieRental.API.Controllers
         /// Dodaje klienta - Admin, Employee
         /// </summary>
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin, Employee")]
         public async Task<IActionResult> AddClient(CreateClientDto createClientDto)
         {
             try
@@ -30,6 +30,24 @@ namespace MovieRental.API.Controllers
             {
                 Console.WriteLine(ex.Message);
                 return BadRequest(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Zwraca wszystkie wypożyczenia danego klienta - Admin, Employee, Client
+        /// </summary>
+        [HttpGet("{clientId}/rents")]
+        [Authorize]
+        public async Task<IActionResult> GetClientRents([FromRoute] int clientId)
+        {
+            try
+            {
+                var rents = await _clientService.GetClientRents(clientId);
+                return Ok(rents);
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
             }
         }
     }

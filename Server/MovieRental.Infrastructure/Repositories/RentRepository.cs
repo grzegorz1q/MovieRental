@@ -42,7 +42,7 @@ namespace MovieRental.Infrastructure.Repositories
 
         public async Task<Rent?> GetRent(int id)
         {
-            return await _appDbContext.Rents.FirstOrDefaultAsync(r => r.Id == id);
+            return await _appDbContext.Rents.Include(r => r.Movie).FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task UpdateRent(Rent rent)
@@ -52,7 +52,7 @@ namespace MovieRental.Infrastructure.Repositories
         }
         public async Task<IEnumerable<Rent>> GetClientRents(int clientId)
         {
-            return await _appDbContext.Rents.Where(r => r.ClientId == clientId).ToListAsync();
+            return await _appDbContext.Rents.Include(r => r.Client).Include(r => r.Movie).Where(r => r.ClientId == clientId).ToListAsync();
         }
     }
 }

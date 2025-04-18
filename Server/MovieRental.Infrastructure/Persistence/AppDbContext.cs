@@ -52,11 +52,6 @@ namespace MovieRental.Infrastructure.Persistence
                 .WithOne(r => r.Movie)
                 .HasForeignKey(r => r.MovieId);
 
-
-            //opcjonalne, sam "?" w encji wystarcza
-            modelBuilder.Entity<Rent>()
-                .Property(r => r.ReturnDate)
-                .IsRequired(false);
         }
     }
 }
