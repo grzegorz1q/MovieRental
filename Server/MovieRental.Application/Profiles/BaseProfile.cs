@@ -3,6 +3,7 @@ using MovieRental.Application.Dtos.Actor;
 using MovieRental.Application.Dtos.Client;
 using MovieRental.Application.Dtos.Employee;
 using MovieRental.Application.Dtos.Movie;
+using MovieRental.Application.Dtos.Person;
 using MovieRental.Application.Dtos.Rent;
 using MovieRental.Application.Dtos.Review;
 using MovieRental.Domain.Entities;
@@ -47,6 +48,10 @@ namespace MovieRental.Application.Profiles
 
             //------CLIENTS------
             CreateMap<CreateClientDto, Client>();
+
+            //------PERSONS------
+            CreateMap<Client, ReadPersonDto>();
+            CreateMap<Employee, ReadPersonDto>();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using MovieRental.Application.Dtos.Authentication;
 using MovieRental.Application.Dtos.Employee;
+using MovieRental.Application.Dtos.Person;
 using MovieRental.Application.Interfaces;
 using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
@@ -41,41 +42,6 @@ namespace MovieRental.Application.Services
 
             employee.IsActive = true;
             await _employeeRepository.UpdateEmployee(employee);
-        }
-        public async Task ResetPassword(int employeeId, ResetPasswordDto resetPasswordDto)
-        {
-            var employee = await _employeeRepository.GetEmployee(employeeId);
-            if (employee == null)
-                throw new KeyNotFoundException("Employee not found!");
-            var oldPassword = _passwordHasher.VerifyHashedPassword(employee, employee.Password, resetPasswordDto.OldPassword);
-            if (oldPassword == PasswordVerificationResult.Failed)
-                throw new UnauthorizedAccessException("Incorrect old password");
-            if (resetPasswordDto.NewPassword != resetPasswordDto.ConfirmPassword)
-                throw new ArgumentException("New password and confirmation password do not match!");
-            employee.Password = _passwordHasher.HashPassword(employee, resetPasswordDto.NewPassword);
-            await _employeeRepository.UpdateEmployee(employee);
-        }
-        public async Task ForgotPassword(string email)
-        {
-            var employee = await _employeeRepository.GetEmployeeByEmail(email);
-            if (employee == null)
-                throw new KeyNotFoundException("Employee with given email not exist in the database");
-
-            var tempPassword = Guid.NewGuid().ToString().Substring(0, 8);
-            employee.Password = _passwordHasher.HashPassword(employee, tempPassword);
-            await _employeeRepository.UpdateEmployee(employee);
-            var emailBody = $"Witaj {employee.FirstName}, operacja resetowania hasła przebiegła pomyślnie. Twoje tymczasowe hasło to: {tempPassword}";
-            await _emailService.SendEmail(email, "Resetowanie hasła", emailBody);
-        }
-        public async Task<ReadEmployeeDto> UpdateEmail(int employeeId, UpdateEmailDto emailDto)
-        {
-            var employee = await _employeeRepository.GetEmployee(employeeId);
-            if (employee == null)
-                throw new KeyNotFoundException("Employee not found!");
-
-            employee.Email = emailDto.Email;
-            await _employeeRepository.UpdateEmployee(employee);
-            return _mapper.Map<ReadEmployeeDto>(employee);
         }
         public async Task<IEnumerable<ReadEmployeeDto>> GetAllEmployees()
         {

@@ -56,9 +56,9 @@ namespace MovieRental.Infrastructure.Repositories
         {
             return await _appDbContext.Clients.AnyAsync(c => c.PhoneNumber == phoneNumber);
         }
-        public async Task<Client?> GetClientByEmail(string email)
+        /*public async Task<Client?> GetClientByEmail(string email)
         {
             return await _appDbContext.Clients.FirstOrDefaultAsync(c => c.Email == email);
-        }
+        }*/
     }
 }

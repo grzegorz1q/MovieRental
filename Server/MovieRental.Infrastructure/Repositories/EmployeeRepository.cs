@@ -48,10 +48,10 @@ namespace MovieRental.Infrastructure.Repositories
             return await _appDbContext.Employees.FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task<Employee?> GetEmployeeByEmail(string email)
+        /*public async Task<Employee?> GetEmployeeByEmail(string email)
         {
             return await _appDbContext.Employees.FirstOrDefaultAsync(e => e.Email == email);
-        }
+        }*/
         public async Task UpdateEmployee(Employee employee)
         {
             _appDbContext.Employees.Update(employee);

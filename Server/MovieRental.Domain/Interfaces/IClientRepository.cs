@@ -15,6 +15,6 @@ namespace MovieRental.Domain.Interfaces
         Task UpdateClient(Client client);
         Task DeleteClient(int id);
         Task<bool> IsClientWithPhoneNumber(int phoneNumber);
-        Task<Client?> GetClientByEmail(string email);
+        //Task<Client?> GetClientByEmail(string email);
     }
 }

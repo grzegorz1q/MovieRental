@@ -1,6 +1,7 @@
 ﻿using AutoMapper.Configuration.Conventions;
 using MovieRental.Application.Dtos.Authentication;
 using MovieRental.Application.Dtos.Employee;
+using MovieRental.Application.Dtos.Person;
 using MovieRental.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,6 @@ namespace MovieRental.Application.Interfaces
     {
         Task AddEmployee(CreateEmployeeDto employee);
         Task ActivateAccount(int employeeId);
-        Task ResetPassword(int employeeId, ResetPasswordDto resetPasswordDto);
-        Task ForgotPassword(string email);
-        Task<ReadEmployeeDto> UpdateEmail(int employeeId, UpdateEmailDto emailDto);
         Task<IEnumerable<ReadEmployeeDto>> GetAllEmployees();
         Task<ReadEmployeeDto> GetEmployee(int employeeId);
         Task ChangeRole(int employeeId, Role role);
