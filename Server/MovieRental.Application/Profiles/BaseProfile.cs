@@ -45,6 +45,9 @@ namespace MovieRental.Application.Profiles
 
             //------RENTS------
             CreateMap<CreateRentDto, Rent>();
+            CreateMap<Rent, ReadRentDto>()
+                .ForMember(dest => dest.MovieTitle, x => x.MapFrom(src => src.Movie.Title))
+                .ForMember(dest => dest.ClientName, x => x.MapFrom(src => $"{src.Client.FirstName} {src.Client.LastName}"));
 
             //------CLIENTS------
             CreateMap<CreateClientDto, Client>();

@@ -95,7 +95,6 @@ namespace MovieRental.API.Controllers
                 return NotFound(ex.Message);
             }
         }
-
         /// <summary>
         /// Usuwa film o podanym id - Admin, Employee
         /// </summary>

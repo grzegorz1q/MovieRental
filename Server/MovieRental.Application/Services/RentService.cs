@@ -38,7 +38,7 @@ namespace MovieRental.Application.Services
 
             //Sprawdzanie czy ma już wypożyczony ten film
             var clientRents = await _rentRepository.GetClientRents(client.Id);
-            if(clientRents.Any(r => r.MovieId == movie.Id && (r.ReturnDate == null || r.ReturnDate > DateTime.Now)))
+            if(clientRents.Any(r => r.MovieId == movie.Id))
                 throw new ArgumentException("Selected client currently has this movie on rent!");
 
             await _rentRepository.AddRent(rent);
@@ -48,6 +48,12 @@ namespace MovieRental.Application.Services
         }
         public async Task ReturnMovie(int rentId)
         {
+            var rent = await _rentRepository.GetRent(rentId);
+            if (rent == null)
+                throw new KeyNotFoundException("Rent not found!");
+            var movie = rent.Movie;
+            movie.Count++;
+            await _movieRepository.UpdateMovie(movie);
             await _rentRepository.DeleteRent(rentId);
         }
     }

@@ -57,9 +57,7 @@ namespace MovieRental.API.Controllers
                 Console.WriteLine(ex.Message);
                 return NotFound(ex.Message);
             }
-            
         }
-
         /// <summary>
         /// Zwraca listę wszystkich pracowników - Admin
         /// </summary>
@@ -96,7 +94,6 @@ namespace MovieRental.API.Controllers
                 return NotFound(ex.Message);
             }
         }
-
         /// <summary>
         /// Zmiana roli pracownika - Admin
         /// </summary>

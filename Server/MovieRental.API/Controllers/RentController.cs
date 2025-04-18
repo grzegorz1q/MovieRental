@@ -19,7 +19,7 @@ namespace MovieRental.API.Controllers
         /// Dodaje wypożyczenie - Admin, Employee
         /// </summary>
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin, Employee")]
         public async Task<IActionResult> AddRent(CreateRentDto createRentDto)
         {
             try
@@ -42,7 +42,7 @@ namespace MovieRental.API.Controllers
         /// Usuwa wypożyczenie(zwrot filmu) - Admin, Employee
         /// </summary>
         [HttpDelete("{rentId}")]
-        [Authorize]
+        [Authorize(Roles = "Admin, Employee")]
         public async Task<IActionResult> ReturnMovie([FromRoute] int rentId)
         {
             try

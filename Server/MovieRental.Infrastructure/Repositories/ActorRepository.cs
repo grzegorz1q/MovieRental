@@ -38,7 +38,10 @@ namespace MovieRental.Infrastructure.Repositories
         {
             return await _appDbContext.Actors.FirstOrDefaultAsync(a => a.Id == id);
         }
-
+        public async Task<Actor?> GetActorByName(string firstName, string lastName)
+        {
+            return await _appDbContext.Actors.FirstOrDefaultAsync(a => a.FirstName.ToUpper() == firstName.ToUpper() && a.LastName.ToUpper() == lastName.ToUpper());
+        }
         public async Task<IEnumerable<Actor>> GetAllActors()
         {
             return await _appDbContext.Actors.ToListAsync();
