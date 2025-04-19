@@ -36,7 +36,7 @@ namespace MovieRental.Infrastructure.Repositories
 
         public async Task<Actor?> GetActor(int id)
         {
-            return await _appDbContext.Actors.FirstOrDefaultAsync(a => a.Id == id);
+            return await _appDbContext.Actors.Include(a => a.Movies).FirstOrDefaultAsync(a => a.Id == id);
         }
         public async Task<Actor?> GetActorByName(string firstName, string lastName)
         {

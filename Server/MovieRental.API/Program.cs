@@ -102,6 +102,7 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IRentService, RentService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IActorService, ActorService>();
 
 
 //Hashowanie hasla

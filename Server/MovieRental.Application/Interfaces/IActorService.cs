@@ -9,6 +9,7 @@ namespace MovieRental.Application.Interfaces
 {
     public interface IActorService
     {
-        //Task<IEnumerable<ReadActorWithMoviesDto>> 
+        Task<ReadActorWithMoviesDto> GetActor(int actorId);
+        Task<IEnumerable<ReadActorDto>> GetAllActors();
     }
 }

@@ -42,6 +42,8 @@ namespace MovieRental.Application.Profiles
             //------ACTORS------
             CreateMap<CreateActorDto, Actor>();
             CreateMap<Actor, ReadActorDto>();
+            CreateMap<Actor, ReadActorWithMoviesDto>()
+                .ForMember(dest => dest.Movies, x => x.MapFrom(src => src.Movies));
 
             //------RENTS------
             CreateMap<CreateRentDto, Rent>();
