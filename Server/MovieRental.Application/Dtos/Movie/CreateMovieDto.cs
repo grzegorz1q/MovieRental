@@ -10,6 +10,6 @@ namespace MovieRental.Application.Dtos.Movie
         public DateTime ReleaseDate { get; set; }
         public int Count { get; set; }
         public bool IsAvailable { get; set; } = true;
-        public ICollection<ActorDto> Actors { get; set; } = default!;
+        public ICollection<CreateActorDto> Actors { get; set; } = default!;
     }
 }

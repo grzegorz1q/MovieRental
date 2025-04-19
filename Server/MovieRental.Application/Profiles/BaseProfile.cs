@@ -40,8 +40,8 @@ namespace MovieRental.Application.Profiles
             CreateMap<Employee, ReadEmployeeDto>();
 
             //------ACTORS------
-            CreateMap<ActorDto, Actor>();
-            CreateMap<Actor, ActorDto>();
+            CreateMap<CreateActorDto, Actor>();
+            CreateMap<Actor, ReadActorDto>();
 
             //------RENTS------
             CreateMap<CreateRentDto, Rent>();

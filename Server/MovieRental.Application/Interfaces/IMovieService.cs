@@ -1,4 +1,5 @@
-﻿using MovieRental.Application.Dtos.Movie;
+﻿using MovieRental.Application.Dtos.Actor;
+using MovieRental.Application.Dtos.Movie;
 using MovieRental.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace MovieRental.Application.Interfaces
         Task AddMovie(CreateMovieDto movieDto);
         Task UpdateMovie(int movieId, UpdateMovieDto movieDto);
         Task DeleteMovie(int movieId);
+        Task<IEnumerable<ReadActorDto>> GetMovieActors(int movieId);
     }
 }
