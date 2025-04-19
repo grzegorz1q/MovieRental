@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
 using MovieRental.Infrastructure.Helpers;
 using System.Text;
@@ -51,8 +52,34 @@ namespace MovieRental.Infrastructure.Services
                 .GetProperty("parts")[0]
                 .GetProperty("text")
                 .GetString();
+            if(answer == null) 
+                throw new Exception("No response");
 
-            return answer ?? "No response";
+            return CleanGeminiResponse(answer);
+        }
+
+        public async Task<IEnumerable<GeminiMovie>> GetMoviesFromGemini(string prompt)
+        {
+            var raw = await AskGemini(prompt);
+
+            var movies = JsonSerializer.Deserialize<IEnumerable<GeminiMovie>>(raw);
+
+            return movies ?? [];
+        }
+        private string CleanGeminiResponse(string raw)
+        {
+            if (raw.StartsWith("```"))
+            {
+                var firstLineBreak = raw.IndexOf('\n');
+                var lastBackticks = raw.LastIndexOf("```");
+
+                if (firstLineBreak != -1 && lastBackticks != -1 && lastBackticks > firstLineBreak)
+                {
+                    return raw.Substring(firstLineBreak + 1, lastBackticks - firstLineBreak - 1).Trim();
+                }
+            }
+
+            return raw.Trim();
         }
     }
 }
