@@ -7,6 +7,7 @@ using MovieRental.Application.Interfaces;
 using MovieRental.Application.Services;
 using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
+using MovieRental.Infrastructure.Helpers;
 using MovieRental.Infrastructure.Persistence;
 using MovieRental.Infrastructure.Repositories;
 using MovieRental.Infrastructure.Services;
@@ -77,6 +78,10 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+//Gemini configuration
+builder.Services.Configure<GeminiApiOptions>(builder.Configuration.GetSection("GeminiApi"));
+builder.Services.AddHttpClient<IGeminiService, GeminiService>();
 
 //SQL Server configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
