@@ -40,8 +40,10 @@ namespace MovieRental.Application.Profiles
             CreateMap<Employee, ReadEmployeeDto>();
 
             //------ACTORS------
-            CreateMap<ActorDto, Actor>();
-            CreateMap<Actor, ActorDto>();
+            CreateMap<CreateActorDto, Actor>();
+            CreateMap<Actor, ReadActorDto>();
+            CreateMap<Actor, ReadActorWithMoviesDto>()
+                .ForMember(dest => dest.Movies, x => x.MapFrom(src => src.Movies));
 
             //------RENTS------
             CreateMap<CreateRentDto, Rent>();
