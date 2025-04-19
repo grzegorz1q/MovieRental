@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using MovieRental.Application.Dtos.Movie;
 using MovieRental.Application.Interfaces;
 
@@ -106,6 +107,23 @@ namespace MovieRental.API.Controllers
             {
                 await _movieService.DeleteMovie(movieId);
                 return Ok();
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Zwraca listę aktorów danego filmu
+        /// </summary>
+        [HttpGet("{movieId}/actors")]
+        public async Task<IActionResult> GetMovieActors([FromRoute] int movieId)
+        {
+            try
+            {
+                var actors = await _movieService.GetMovieActors(movieId);
+                return Ok(actors);
             }
             catch(KeyNotFoundException ex)
             {

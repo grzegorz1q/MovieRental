@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MovieRental.Application.Dtos.Actor;
 using MovieRental.Application.Dtos.Movie;
 using MovieRental.Application.Interfaces;
 using MovieRental.Domain.Entities;
@@ -35,7 +36,7 @@ namespace MovieRental.Application.Services
                 throw new ArgumentNullException("Movie not found!");
             return _mapper.Map<ReadMovieDto>(movie);
         }
-        public async Task AddMovie(CreateMovieDto movieDto) // chyba mozna dodac sprawdzanie czy podany aktor jest juz w bazie
+        public async Task AddMovie(CreateMovieDto movieDto)
         {
             bool movieExist = await _movieRepository.IsMovieWithTitle(movieDto.Title);
             if (movieExist)
@@ -68,6 +69,14 @@ namespace MovieRental.Application.Services
         public async Task DeleteMovie(int movieId)
         {
             await _movieRepository.DeleteMovie(movieId);
+        }
+        public async Task<IEnumerable<ReadActorDto>> GetMovieActors(int movieId)
+        {
+            var movie = await _movieRepository.GetMovie(movieId);
+            if (movie == null)
+                throw new KeyNotFoundException("Movie not found!");
+            var movieActors = movie.Actors.ToList();
+            return _mapper.Map<IEnumerable<ReadActorDto>>(movieActors);
         }
     }
 }

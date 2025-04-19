@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MovieRental.Application.Dtos.Actor
 {
-    public class ActorDto
+    public class CreateActorDto
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
