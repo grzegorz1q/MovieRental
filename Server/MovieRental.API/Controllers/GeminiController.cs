@@ -41,5 +41,11 @@ namespace MovieRental.API.Controllers
                 return BadRequest("Error while getting a movie");
             }
         }
+        [HttpGet("popular-movies/filter")]
+        public IActionResult GetFilteredMovies([FromQuery] int year)
+        {
+            var filtered = _cachedMovies.Where(m => m.Year >= year).ToList();
+            return Ok(filtered);
+        }
     }
 }
