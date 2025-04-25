@@ -108,6 +108,40 @@ namespace MovieRental.API.Controllers
             }
         }
         /// <summary>
+        /// Aktywacja konta przez pracownika
+        /// </summary>
+        [HttpGet("activate/employees/{employeeId}")]
+        public async Task<IActionResult> ActivateEmployeeAccount([FromRoute] int employeeId)
+        {
+            try
+            {
+                await _accountService.ActivateEmployeeAccount(employeeId);
+                return Ok();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Aktywacja konta przez klienta
+        /// </summary>
+        [HttpGet("activate/clients/{clientId}")]
+        public async Task<IActionResult> ActivateClientAccount([FromRoute] int clientId)
+        {
+            try
+            {
+                await _accountService.ActivateClientAccount(clientId);
+                return Ok();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
         /// Aktualizacja emaila zalogowanego użytkownika - Admin, Employee, Client
         /// </summary>
         [HttpPatch("email")]

@@ -31,17 +31,8 @@ namespace MovieRental.Application.Services
             var employee = _mapper.Map<Employee>(employeeDto);
             employee.Password = tempPassword;
             await _employeeRepository.AddEmployee(employee);
-            var emailBody = $"Witaj {employee.FirstName}, aby aktywować swoje konto naciśnij ten link: http://localhost:5178/employees/activate/{employee.Id}. Twoje tymczasowe hasło to: {tempPassword}";
+            var emailBody = $"Witaj {employee.FirstName}, aby aktywować swoje konto naciśnij ten link: http://localhost:5178/account/activate/employees/{employee.Id}. Twoje tymczasowe hasło to: {tempPassword}";
             await _emailService.SendEmail(employeeDto.Email, "Twoje nowe konto", emailBody);
-        }
-        public async Task ActivateAccount(int employeeId)
-        {
-            var employee = await _employeeRepository.GetEmployee(employeeId);
-            if (employee == null)
-                throw new KeyNotFoundException("Employee not found!");
-
-            employee.IsActive = true;
-            await _employeeRepository.UpdateEmployee(employee);
         }
         public async Task<IEnumerable<ReadEmployeeDto>> GetAllEmployees()
         {

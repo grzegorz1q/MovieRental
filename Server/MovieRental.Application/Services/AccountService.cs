@@ -39,7 +39,7 @@ namespace MovieRental.Application.Services
                 if (result == PasswordVerificationResult.Success)
                     return employee;
             }
-            if (person is Client client && client != null)
+            if (person is Client client && client != null && client.IsActive)
             {
                 var result = _passwordHasherClient.VerifyHashedPassword(client, client.Password, loginDto.Password);
                 if (result == PasswordVerificationResult.Success)
@@ -131,6 +131,26 @@ namespace MovieRental.Application.Services
                 throw new ArgumentException("Password and confirmation password do not match!");
             var client = _mapper.Map<Client>(createClientDto);
             await _clientRepository.AddClient(client);
+            var emailBody = $"Witaj {client.FirstName}, aby aktywować swoje konto naciśnij ten link: http://localhost:5178/account/activate/clients/{client.Id}.";
+            await _emailService.SendEmail(client.Email, "Twoje nowe konto", emailBody);
+        }
+        public async Task ActivateEmployeeAccount(int employeeId)
+        {
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found!");
+
+            employee.IsActive = true;
+            await _employeeRepository.UpdateEmployee(employee);
+        }
+        public async Task ActivateClientAccount(int clientId)
+        {
+            var client = await _clientRepository.GetClient(clientId);
+            if (client == null)
+                throw new KeyNotFoundException("Client not found!");
+
+            client.IsActive = true;
+            await _clientRepository.UpdateClient(client);
         }
     }
 }

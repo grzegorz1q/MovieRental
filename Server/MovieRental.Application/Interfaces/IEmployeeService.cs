@@ -14,7 +14,6 @@ namespace MovieRental.Application.Interfaces
     public interface IEmployeeService
     {
         Task AddEmployee(CreateEmployeeDto employee);
-        Task ActivateAccount(int employeeId);
         Task<IEnumerable<ReadEmployeeDto>> GetAllEmployees();
         Task<ReadEmployeeDto> GetEmployee(int employeeId);
         Task ChangeRole(int employeeId, Role role);

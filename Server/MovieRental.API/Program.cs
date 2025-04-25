@@ -83,6 +83,9 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.Configure<GeminiApiOptions>(builder.Configuration.GetSection("GeminiApi"));
 builder.Services.AddHttpClient<IGeminiService, GeminiService>();
 
+//Gmail configuration
+builder.Services.Configure<GmailOptions>(builder.Configuration.GetSection("Gmail"));
+
 //SQL Server configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

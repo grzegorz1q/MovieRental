@@ -42,23 +42,6 @@ namespace MovieRental.API.Controllers
             }
         }
         /// <summary>
-        /// Aktywacja konta przez pracownika
-        /// </summary>
-        [HttpGet("activate/{employeeId}")]
-        public async Task<IActionResult> ActivateAccount([FromRoute] int employeeId)
-        {
-            try
-            {
-                await _employeeService.ActivateAccount(employeeId);
-                return Ok();
-            }
-            catch(KeyNotFoundException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return NotFound(ex.Message);
-            }
-        }
-        /// <summary>
         /// Zwraca listę wszystkich pracowników - Admin
         /// </summary>
         [HttpGet]

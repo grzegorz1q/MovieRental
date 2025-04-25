@@ -14,5 +14,7 @@ namespace MovieRental.Application.Interfaces
         Task ForgotPassword(string email);
         Task UpdateEmail(int personId, UpdateEmailDto emailDto);
         Task<ReadPersonDto> GetLoggedPersonInfo(int personId);
+        Task ActivateEmployeeAccount(int employeeId);
+        Task ActivateClientAccount(int clientId);
     }
 }
