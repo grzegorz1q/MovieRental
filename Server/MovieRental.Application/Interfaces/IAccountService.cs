@@ -10,10 +10,13 @@ namespace MovieRental.Application.Interfaces
     {
         Task<Person> Login(LoginDto loginDto);
         Task Register(CreateClientDto createClientDto);
-        Task ResetPassword(int personId, ResetPasswordDto resetPasswordDto);
+        Task ResetEmployeePassword(int employeeId, ResetPasswordDto resetPasswordDto);
+        Task ResetClientPassword(int clientId, ResetPasswordDto resetPasswordDto);
         Task ForgotPassword(string email);
-        Task UpdateEmail(int personId, UpdateEmailDto emailDto);
-        Task<ReadPersonDto> GetLoggedPersonInfo(int personId);
+        Task UpdateEmployeeEmail(int employeeId, UpdateEmailDto emailDto);
+        Task UpdateClientEmail(int clientId, UpdateEmailDto emailDto);
+        Task<ReadEmployeeDto> GetLoggedEmployeeInfo(int employeeId);
+        Task<ReadClientDto> GetLoggedClientInfo(int clientId);
         Task ActivateEmployeeAccount(int employeeId);
         Task ActivateClientAccount(int clientId);
     }

@@ -95,5 +95,41 @@ namespace MovieRental.API.Controllers
                 return NotFound(ex.Message);
             }
         }
+        /// <summary>
+        /// Dezaktywuje konto pracownika - Admin
+        /// </summary>
+        [HttpPatch("{employeeId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeactivateEmployee([FromRoute] int employeeId)
+        {
+            try
+            {
+                await _employeeService.DeactivateEmployee(employeeId);
+                return Ok("Employee account disactivated");
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Usuwa konto pracownika - Admin
+        /// </summary>
+        [HttpDelete("{employeeId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteEmployee([FromRoute] int employeeId)
+        {
+            try
+            {
+                await _employeeService.DeleteEmployee(employeeId);
+                return Ok("Employee removed from database");
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
     }
 }

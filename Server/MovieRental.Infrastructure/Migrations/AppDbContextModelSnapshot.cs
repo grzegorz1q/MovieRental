@@ -34,7 +34,7 @@ namespace MovieRental.Infrastructure.Migrations
 
                     b.HasIndex("MoviesId");
 
-                    b.ToTable("ActorMovie");
+                    b.ToTable("ActorMovie", (string)null);
                 });
 
             modelBuilder.Entity("MovieRental.Domain.Entities.Actor", b =>
@@ -163,7 +163,7 @@ namespace MovieRental.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
                 });
 
             modelBuilder.Entity("MovieRental.Domain.Entities.Rent", b =>
@@ -189,7 +189,7 @@ namespace MovieRental.Infrastructure.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Rents");
+                    b.ToTable("Rents", (string)null);
                 });
 
             modelBuilder.Entity("MovieRental.Domain.Entities.Review", b =>
@@ -214,7 +214,7 @@ namespace MovieRental.Infrastructure.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("ActorMovie", b =>

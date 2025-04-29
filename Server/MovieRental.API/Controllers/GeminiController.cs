@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieRental.Domain.Entities;
 using MovieRental.Domain.Interfaces;
-using System.Text.Json;
 
 namespace MovieRental.API.Controllers
 {

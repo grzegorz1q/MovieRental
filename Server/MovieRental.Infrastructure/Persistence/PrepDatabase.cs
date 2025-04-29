@@ -1,18 +1,18 @@
-﻿using MovieRental.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
+using MovieRental.Domain.Entities;
 
 namespace MovieRental.Infrastructure.Persistence
 {
     public class PrepDatabase
     {
         private readonly AppDbContext _appDbContext;
-        public PrepDatabase(AppDbContext appDbContext) 
+        private readonly IPasswordHasher<Employee> _passwordHasherEmployee;
+        private readonly IPasswordHasher<Client> _passwordHasherClient;
+        public PrepDatabase(AppDbContext appDbContext, IPasswordHasher<Employee> passwordHasherEmployee, IPasswordHasher<Client> passwordHasherClient) 
         {
             _appDbContext = appDbContext;
+            _passwordHasherEmployee = passwordHasherEmployee;
+            _passwordHasherClient = passwordHasherClient;
         }
 
         public void Seed()
@@ -35,6 +35,15 @@ namespace MovieRental.Infrastructure.Persistence
                     _appDbContext.SaveChanges();
                 }
             }
+            if (_appDbContext.Database.CanConnect())
+            {
+                if (!_appDbContext.Employees.Any())
+                {
+                    var employees = AddEmployees();
+                    _appDbContext.Employees.AddRange(employees);
+                    _appDbContext.SaveChanges();
+                }
+            }
 
         }
         private IEnumerable<Movie> AddMovies()
@@ -50,10 +59,27 @@ namespace MovieRental.Infrastructure.Persistence
         {
             var clients = new List<Client>()
             {
-                new Client(){FirstName = "Jan", LastName="Kowalski", Address="Czestochowa", PhoneNumber=987899765},
-                new Client(){FirstName = "Adam", LastName="Nowak", Address="Warszawa", PhoneNumber=223454321}
+                new Client(){FirstName = "Jan", LastName="Kowalski", Email="jan.kowalski@test.pl", Address="Czestochowa", PhoneNumber=987899765, Password="password", IsActive = true},
+                new Client(){FirstName = "Adam", LastName="Nowak", Email="adam.nowak@test.pl", Address="Warszawa", PhoneNumber=223454321, Password="password", IsActive = true}
             };
+            foreach (var e in clients)
+            {
+                e.Password = _passwordHasherClient.HashPassword(e, e.Password);
+            }
             return clients;
+        }
+        private IEnumerable<Employee> AddEmployees()
+        {
+            var employees = new List<Employee>()
+            {
+                new Employee(){FirstName = "Karol", LastName="Nowakowski", Email="admin@test.pl", Password="admin", IsActive=true, Role=Role.Admin},
+                new Employee(){FirstName = "Kamil", LastName="Malinowski", Email="kamil.malinowski@test.pl", Password="password", IsActive=true, Role=Role.Employee}
+            };
+            foreach (var e in employees)
+            {
+                e.Password = _passwordHasherEmployee.HashPassword(e, e.Password);
+            }
+            return employees;
         }
     }
 }

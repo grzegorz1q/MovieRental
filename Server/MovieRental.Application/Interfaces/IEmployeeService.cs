@@ -17,5 +17,7 @@ namespace MovieRental.Application.Interfaces
         Task<IEnumerable<ReadEmployeeDto>> GetAllEmployees();
         Task<ReadEmployeeDto> GetEmployee(int employeeId);
         Task ChangeRole(int employeeId, Role role);
+        Task DeactivateEmployee(int employeeId);
+        Task DeleteEmployee(int employeeId);
     }
 }

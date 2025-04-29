@@ -27,6 +27,10 @@ namespace MovieRental.Application.Services
         {
             if (!Enum.IsDefined(typeof(Role), employeeDto.Role))
                 throw new ArgumentException("Invalid role value.");
+            bool isEmployee = await _employeeRepository.IsEmployeeWithEmail(employeeDto.Email);
+            if(isEmployee)
+                throw new ArgumentException("Employee with given email is already in database!");
+            
             var tempPassword = Guid.NewGuid().ToString().Substring(0,8);
             var employee = _mapper.Map<Employee>(employeeDto);
             employee.Password = tempPassword;
@@ -53,6 +57,18 @@ namespace MovieRental.Application.Services
                 throw new KeyNotFoundException("Employee not found!;");
             employee.Role = role;
             await _employeeRepository.UpdateEmployee(employee);
+        }
+        public async Task DeactivateEmployee(int employeeId)
+        {
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found");
+            employee.IsActive = false;
+            await _employeeRepository.UpdateEmployee(employee);
+        }
+        public async Task DeleteEmployee(int employeeId)
+        {
+            await _employeeRepository.DeleteEmployee(employeeId);
         }
     }
 }
