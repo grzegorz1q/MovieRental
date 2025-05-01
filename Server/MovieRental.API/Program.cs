@@ -141,6 +141,7 @@ if (app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate(); //do sprawdzenia
     var passwordHasherEmployee = scope.ServiceProvider.GetRequiredService<IPasswordHasher<Employee>>();
     var passwordHasherClient = scope.ServiceProvider.GetRequiredService<IPasswordHasher<Client>>();
     var prepDatabase = new PrepDatabase(dbContext, passwordHasherEmployee, passwordHasherClient);
