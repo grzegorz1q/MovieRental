@@ -42,23 +42,6 @@ namespace MovieRental.API.Controllers
             }
         }
         /// <summary>
-        /// Aktywacja konta przez pracownika
-        /// </summary>
-        [HttpGet("activate/{employeeId}")]
-        public async Task<IActionResult> ActivateAccount([FromRoute] int employeeId)
-        {
-            try
-            {
-                await _employeeService.ActivateAccount(employeeId);
-                return Ok();
-            }
-            catch(KeyNotFoundException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return NotFound(ex.Message);
-            }
-        }
-        /// <summary>
         /// Zwraca listę wszystkich pracowników - Admin
         /// </summary>
         [HttpGet]
@@ -105,6 +88,42 @@ namespace MovieRental.API.Controllers
             {
                 await _employeeService.ChangeRole(employeeId, changeRoleDto.Role);
                 return Ok($"Soccessfully changed selected employee's role to {changeRoleDto.Role.ToString()}");
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Dezaktywuje konto pracownika - Admin
+        /// </summary>
+        [HttpPatch("{employeeId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeactivateEmployee([FromRoute] int employeeId)
+        {
+            try
+            {
+                await _employeeService.DeactivateEmployee(employeeId);
+                return Ok("Employee account disactivated");
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Usuwa konto pracownika - Admin
+        /// </summary>
+        [HttpDelete("{employeeId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteEmployee([FromRoute] int employeeId)
+        {
+            try
+            {
+                await _employeeService.DeleteEmployee(employeeId);
+                return Ok("Employee removed from database");
             }
             catch(KeyNotFoundException ex)
             {

@@ -57,21 +57,55 @@ namespace MovieRental.API.Controllers
             }
         }
         /// <summary>
-        /// Resetowanie hasła zalogowanego użytkownika - Admin, Employee, Client
+        /// Resetowanie hasła zalogowanego pracownika - Admin, Employee
         /// </summary>
-        [HttpPost("reset-password")]
-        [Authorize]
-        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        [HttpPost("reset-employee-password")]
+        [Authorize(Roles = "Admin, Employee")]
+        public async Task<IActionResult> ResetEmployeePassword(ResetPasswordDto resetPasswordDto)
         {
             try
             {
                 var personIdClaim = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 if (personIdClaim == null)
                 {
-                    return Unauthorized("Person's ID is missing in the token.");
+                    return Unauthorized("Employee's ID is missing in the token.");
                 }
                 var personId = int.Parse(personIdClaim);
-                await _accountService.ResetPassword(personId, resetPasswordDto);
+                await _accountService.ResetEmployeePassword(personId, resetPasswordDto);
+                return Ok(resetPasswordDto);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Resetowanie hasła zalogowanego klienta - Client
+        /// </summary>
+        [HttpPost("reset-client-password")]
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> ResetClientPassword(ResetPasswordDto resetPasswordDto)
+        {
+            try
+            {
+                var personIdClaim = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                if (personIdClaim == null)
+                {
+                    return Unauthorized("Client's ID is missing in the token.");
+                }
+                var personId = int.Parse(personIdClaim);
+                await _accountService.ResetClientPassword(personId, resetPasswordDto);
                 return Ok(resetPasswordDto);
             }
             catch (KeyNotFoundException ex)
@@ -108,21 +142,55 @@ namespace MovieRental.API.Controllers
             }
         }
         /// <summary>
-        /// Aktualizacja emaila zalogowanego użytkownika - Admin, Employee, Client
+        /// Aktywacja konta przez pracownika
         /// </summary>
-        [HttpPatch("email")]
-        [Authorize]
-        public async Task<IActionResult> UpdateEmail(UpdateEmailDto emailDto)
+        [HttpGet("activate/employees/{employeeId}")]
+        public async Task<IActionResult> ActivateEmployeeAccount([FromRoute] int employeeId)
+        {
+            try
+            {
+                await _accountService.ActivateEmployeeAccount(employeeId);
+                return Ok();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Aktywacja konta przez klienta
+        /// </summary>
+        [HttpGet("activate/clients/{clientId}")]
+        public async Task<IActionResult> ActivateClientAccount([FromRoute] int clientId)
+        {
+            try
+            {
+                await _accountService.ActivateClientAccount(clientId);
+                return Ok();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Aktualizacja emaila zalogowanego pracownika - Admin, Employee
+        /// </summary>
+        [HttpPatch("employees/email")]
+        [Authorize(Roles = "Admin, Employee")]
+        public async Task<IActionResult> UpdateEmployeeEmail(UpdateEmailDto emailDto)
         {
             try
             {
                 var personIdClaim = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 if (personIdClaim == null)
                 {
-                    return Unauthorized("Person's ID is missing in the token.");
+                    return Unauthorized("Employee's ID is missing in the token.");
                 }
                 var personId = int.Parse(personIdClaim);
-                await _accountService.UpdateEmail(personId, emailDto);
+                await _accountService.UpdateEmployeeEmail(personId, emailDto);
                 return Ok("Email successfully updated!");
             }
             catch (KeyNotFoundException ex)
@@ -132,11 +200,35 @@ namespace MovieRental.API.Controllers
             }
         }
         /// <summary>
-        /// Zwraca informacje o zalogowanym użytkowniku - Admin, Employee, Client
+        /// Aktualizacja emaila zalogowanego klienta - Client
         /// </summary>
-        [HttpGet("me")]
-        [Authorize]
-        public async Task<IActionResult> GetLoggedPerson()
+        [HttpPatch("clients/email")]
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> UpdateClientEmail(UpdateEmailDto emailDto)
+        {
+            try
+            {
+                var personIdClaim = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                if (personIdClaim == null)
+                {
+                    return Unauthorized("Client's ID is missing in the token.");
+                }
+                var personId = int.Parse(personIdClaim);
+                await _accountService.UpdateClientEmail(personId, emailDto);
+                return Ok("Email successfully updated!");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Zwraca informacje o zalogowanym pracowniku - Admin, Employee
+        /// </summary>
+        [HttpGet("employees/me")]
+        [Authorize(Roles = "Employee, Admin")]
+        public async Task<IActionResult> GetLoggedEmployee()
         {
             try
             {
@@ -146,7 +238,31 @@ namespace MovieRental.API.Controllers
                     return Unauthorized("Employees's ID is missing in the token.");
                 }
                 var personId = int.Parse(personIdClaim);
-                var person = await _accountService.GetLoggedPersonInfo(personId);
+                var person = await _accountService.GetLoggedEmployeeInfo(personId);
+                return Ok(person);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Zwraca informacje o zalogowanym kliencie - Client
+        /// </summary>
+        [HttpGet("clients/me")]
+        [Authorize(Roles ="Client")]
+        public async Task<IActionResult> GetLoggedClient()
+        {
+            try
+            {
+                var personIdClaim = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                if (personIdClaim == null)
+                {
+                    return Unauthorized("Client's ID is missing in the token.");
+                }
+                var personId = int.Parse(personIdClaim);
+                var person = await _accountService.GetLoggedClientInfo(personId);
                 return Ok(person);
             }
             catch (KeyNotFoundException ex)

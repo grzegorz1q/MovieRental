@@ -13,6 +13,7 @@ namespace MovieRental.Domain.Interfaces
         Task<IEnumerable<Employee>> GetAllEmployees();
         Task<Employee?> GetEmployee(int id);
         //Task<Employee?> GetEmployeeByEmail(string email);
+        Task<bool> IsEmployeeWithEmail(string email);
         Task UpdateEmployee(Employee employee);
         Task DeleteEmployee(int id);
     }

@@ -53,6 +53,7 @@ namespace MovieRental.Application.Profiles
 
             //------CLIENTS------
             CreateMap<CreateClientDto, Client>();
+            CreateMap<Client, ReadClientDto>();
 
             //------PERSONS------
             CreateMap<Client, ReadPersonDto>();

@@ -31,11 +31,10 @@ namespace MovieRental.Infrastructure.Repositories
         public async Task DeleteEmployee(int id)
         {
             var employee = await GetEmployee(id);
-            if (employee != null)
-            {
-                _appDbContext.Employees.Remove(employee);
-                await _appDbContext.SaveChangesAsync();
-            }
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found");
+            _appDbContext.Employees.Remove(employee);
+            await _appDbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Employee>> GetAllEmployees()
@@ -52,6 +51,10 @@ namespace MovieRental.Infrastructure.Repositories
         {
             return await _appDbContext.Employees.FirstOrDefaultAsync(e => e.Email == email);
         }*/
+        public async Task<bool> IsEmployeeWithEmail(string email)
+        {
+            return await _appDbContext.Employees.AnyAsync(e => e.Email == email);
+        }
         public async Task UpdateEmployee(Employee employee)
         {
             _appDbContext.Employees.Update(employee);

@@ -39,7 +39,7 @@ namespace MovieRental.Application.Services
                 if (result == PasswordVerificationResult.Success)
                     return employee;
             }
-            if (person is Client client && client != null)
+            if (person is Client client && client != null && client.IsActive)
             {
                 var result = _passwordHasherClient.VerifyHashedPassword(client, client.Password, loginDto.Password);
                 if (result == PasswordVerificationResult.Success)
@@ -47,32 +47,33 @@ namespace MovieRental.Application.Services
             }
             throw new UnauthorizedAccessException("Invalid email or password");
         }
-        public async Task ResetPassword(int personId, ResetPasswordDto resetPasswordDto)
+        public async Task ResetEmployeePassword(int employeeId, ResetPasswordDto resetPasswordDto)
         {
-            var person = await _personRepository.GetPerson(personId);
-            if(person == null)
-                throw new KeyNotFoundException("Person not found!");
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if(employee == null)
+                throw new KeyNotFoundException("Employee not found!");
 
-            if (person is Employee employee)
-            {
-                var oldPassword = _passwordHasherEmployee.VerifyHashedPassword(employee, employee.Password, resetPasswordDto.OldPassword);
-                if (oldPassword == PasswordVerificationResult.Failed)
-                    throw new UnauthorizedAccessException("Incorrect old password");
-                if (resetPasswordDto.NewPassword != resetPasswordDto.ConfirmPassword)
-                    throw new ArgumentException("New password and confirmation password do not match!");
-                employee.Password = _passwordHasherEmployee.HashPassword(employee, resetPasswordDto.NewPassword);
-                await _employeeRepository.UpdateEmployee(employee);
-            }
-            if(person is Client client) 
-            {
-                var oldPassword = _passwordHasherClient.VerifyHashedPassword(client, client.Password, resetPasswordDto.OldPassword);
-                if (oldPassword == PasswordVerificationResult.Failed)
-                    throw new UnauthorizedAccessException("Incorrect old password");
-                if (resetPasswordDto.NewPassword != resetPasswordDto.ConfirmPassword)
-                    throw new ArgumentException("New password and confirmation password do not match!");
-                client.Password = _passwordHasherClient.HashPassword(client, resetPasswordDto.NewPassword);
-                await _clientRepository.UpdateClient(client);
-            }
+            var oldPassword = _passwordHasherEmployee.VerifyHashedPassword(employee, employee.Password, resetPasswordDto.OldPassword);
+            if (oldPassword == PasswordVerificationResult.Failed)
+                throw new UnauthorizedAccessException("Incorrect old password");
+            if (resetPasswordDto.NewPassword != resetPasswordDto.ConfirmPassword)
+                throw new ArgumentException("New password and confirmation password do not match!");
+            employee.Password = _passwordHasherEmployee.HashPassword(employee, resetPasswordDto.NewPassword);
+            await _employeeRepository.UpdateEmployee(employee);
+        }
+        public async Task ResetClientPassword(int clientId, ResetPasswordDto resetPasswordDto)
+        {
+            var client = await _clientRepository.GetClient(clientId);
+            if (client == null)
+                throw new KeyNotFoundException("Client not found!");
+
+            var oldPassword = _passwordHasherClient.VerifyHashedPassword(client, client.Password , resetPasswordDto.OldPassword);
+            if (oldPassword == PasswordVerificationResult.Failed)
+                throw new UnauthorizedAccessException("Incorrect old password");
+            if (resetPasswordDto.NewPassword != resetPasswordDto.ConfirmPassword)
+                throw new ArgumentException("New password and confirmation password do not match!");
+            client.Password = _passwordHasherClient.HashPassword(client, resetPasswordDto.NewPassword);
+            await _clientRepository.UpdateClient(client);
         }
         public async Task ForgotPassword(string email)
         {
@@ -94,32 +95,39 @@ namespace MovieRental.Application.Services
             var emailBody = $"Witaj {person.FirstName}, operacja resetowania hasła przebiegła pomyślnie. Twoje tymczasowe hasło to: {tempPassword}";
             await _emailService.SendEmail(email, "Resetowanie hasła", emailBody);
         }
-        public async Task UpdateEmail(int personId, UpdateEmailDto emailDto)
+        public async Task UpdateEmployeeEmail(int employeeId, UpdateEmailDto emailDto)
         {
-            var person = await _personRepository.GetPerson(personId);
-            if (person == null)
-                throw new KeyNotFoundException("Person not found!");
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found!");
 
-            if (person is Employee employee)
-            {
-                employee.Email = emailDto.Email;
-                await _employeeRepository.UpdateEmployee(employee);
-            }
-            if (person is Client client)
-            {
-                client.Email = emailDto.Email;
-                await _clientRepository.UpdateClient(client);
-            }
+            employee.Email = emailDto.Email;
+            await _employeeRepository.UpdateEmployee(employee);
         }
-        public async Task<ReadPersonDto> GetLoggedPersonInfo(int personId)
+        public async Task UpdateClientEmail(int clientId, UpdateEmailDto emailDto)
         {
-            var person = await _personRepository.GetPerson(personId);
-            if (person is Employee employee)
-                return _mapper.Map<ReadPersonDto>(employee);
-            if (person is Client client)
-                return _mapper.Map<ReadPersonDto>(client);
+            var client = await _clientRepository.GetClient(clientId);
+            if (client == null)
+                throw new KeyNotFoundException("Client not found!");
 
-            throw new KeyNotFoundException("Person not found!");
+            client.Email = emailDto.Email;
+            await _clientRepository.UpdateClient(client);
+        }
+        public async Task<ReadEmployeeDto> GetLoggedEmployeeInfo(int employeeId)
+        {
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found!");
+
+            return _mapper.Map<ReadEmployeeDto>(employee);
+        }
+        public async Task<ReadClientDto> GetLoggedClientInfo(int clientId)
+        {
+            var client = await _clientRepository.GetClient(clientId);
+            if (client == null)
+                throw new KeyNotFoundException("Client not found!");
+
+            return _mapper.Map<ReadClientDto>(client);
         }
         public async Task Register(CreateClientDto createClientDto)
         {
@@ -131,6 +139,26 @@ namespace MovieRental.Application.Services
                 throw new ArgumentException("Password and confirmation password do not match!");
             var client = _mapper.Map<Client>(createClientDto);
             await _clientRepository.AddClient(client);
+            var emailBody = $"Witaj {client.FirstName}, aby aktywować swoje konto naciśnij ten link: http://localhost:5178/account/activate/clients/{client.Id}.";
+            await _emailService.SendEmail(client.Email, "Twoje nowe konto", emailBody);
+        }
+        public async Task ActivateEmployeeAccount(int employeeId)
+        {
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found!");
+
+            employee.IsActive = true;
+            await _employeeRepository.UpdateEmployee(employee);
+        }
+        public async Task ActivateClientAccount(int clientId)
+        {
+            var client = await _clientRepository.GetClient(clientId);
+            if (client == null)
+                throw new KeyNotFoundException("Client not found!");
+
+            client.IsActive = true;
+            await _clientRepository.UpdateClient(client);
         }
     }
 }
