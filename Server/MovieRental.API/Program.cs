@@ -124,9 +124,9 @@ builder.Services.AddScoped<IPasswordHasher<Employee>, PasswordHasher<Employee>>(
 builder.Services.AddScoped<IPasswordHasher<Client>, PasswordHasher<Client>>();
 
 //Walidacja
-builder.Services.AddScoped<IValidator<CreateClientDto>, CreateClientDtoValidator>();
-builder.Services.AddScoped<IValidator<CreateEmployeeDto>, CreateEmployeeDtoValidator>();
-builder.Services.AddScoped<IValidator<UpdateEmailDto>, UpdateEmailDtoValidator>();
+builder.Services.AddTransient<IValidator<CreateClientDto>, CreateClientDtoValidator>();
+builder.Services.AddTransient<IValidator<CreateEmployeeDto>, CreateEmployeeDtoValidator>();
+builder.Services.AddTransient<IValidator<UpdateEmailDto>, UpdateEmailDtoValidator>();
 
 var app = builder.Build();
 
