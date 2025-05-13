@@ -48,7 +48,16 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-//
+//Allow frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin",
+        builder => builder.WithOrigins("http://localhost:4200")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+        );
+});
 
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
@@ -148,7 +157,7 @@ using (var scope = app.Services.CreateScope())
     prepDatabase.Seed();
 }
 //
-
+app.UseCors("AllowOrigin");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
