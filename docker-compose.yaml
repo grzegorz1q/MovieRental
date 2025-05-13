@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - SA_PASSWORD=MovieRental123
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    networks:
+      - backend
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  webapi:
+    container_name: movie-rental-api
+    build:
+      context: .
+      dockerfile: Server/MovieRental.API/Dockerfile
+    image: movie-rental-api
+    ports:
+      - "5178:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=MovieRentalDb;User=sa;Password=MovieRental123;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
+    networks:
+      - backend
+
+volumes:
+  sql_data:
+
+networks:
+  backend:

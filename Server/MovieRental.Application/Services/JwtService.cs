@@ -2,13 +2,9 @@
 using Microsoft.IdentityModel.Tokens;
 using MovieRental.Application.Interfaces;
 using MovieRental.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieRental.Application.Services
 {
@@ -44,7 +40,8 @@ namespace MovieRental.Application.Services
                 claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, client.Id.ToString()),
-                    new Claim(ClaimTypes.Name, $"{client.FirstName} {client.LastName}")
+                    new Claim(ClaimTypes.Name, $"{client.FirstName} {client.LastName}"),
+                    new Claim(ClaimTypes.Role, "Client")
                 };
             }
             else

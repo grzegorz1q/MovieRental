@@ -1,4 +1,6 @@
-﻿using MovieRental.Domain.Interfaces;
+﻿using Microsoft.Extensions.Options;
+using MovieRental.Domain.Interfaces;
+using MovieRental.Infrastructure.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,15 @@ namespace MovieRental.Infrastructure.Services
 {
     public class EmailService : IEmailService
     {
+        private readonly GmailOptions _gmailOptions;
+        public EmailService(IOptions<GmailOptions> gmailOptions)
+        {
+            _gmailOptions = gmailOptions.Value;
+        }
         public Task SendEmail(string email, string subject, string message)
         {
-            var mail = "movierentalpcz@gmail.com";
-            var password = "otgc wzww xzed tuxs";
+            var mail = _gmailOptions.Email;
+            var password = _gmailOptions.Password;
 
             var client = new SmtpClient("smtp.gmail.com", 587)
             {

@@ -27,21 +27,16 @@ namespace MovieRental.Application.Services
         {
             if (!Enum.IsDefined(typeof(Role), employeeDto.Role))
                 throw new ArgumentException("Invalid role value.");
+            bool isEmployee = await _employeeRepository.IsEmployeeWithEmail(employeeDto.Email);
+            if(isEmployee)
+                throw new ArgumentException("Employee with given email is already in database!");
+            
             var tempPassword = Guid.NewGuid().ToString().Substring(0,8);
             var employee = _mapper.Map<Employee>(employeeDto);
             employee.Password = tempPassword;
             await _employeeRepository.AddEmployee(employee);
-            var emailBody = $"Witaj {employee.FirstName}, aby aktywować swoje konto naciśnij ten link: http://localhost:5178/employees/activate/{employee.Id}. Twoje tymczasowe hasło to: {tempPassword}";
+            var emailBody = $"Witaj {employee.FirstName}, aby aktywować swoje konto naciśnij ten link: http://localhost:5178/account/activate/employees/{employee.Id}. Twoje tymczasowe hasło to: {tempPassword}";
             await _emailService.SendEmail(employeeDto.Email, "Twoje nowe konto", emailBody);
-        }
-        public async Task ActivateAccount(int employeeId)
-        {
-            var employee = await _employeeRepository.GetEmployee(employeeId);
-            if (employee == null)
-                throw new KeyNotFoundException("Employee not found!");
-
-            employee.IsActive = true;
-            await _employeeRepository.UpdateEmployee(employee);
         }
         public async Task<IEnumerable<ReadEmployeeDto>> GetAllEmployees()
         {
@@ -62,6 +57,18 @@ namespace MovieRental.Application.Services
                 throw new KeyNotFoundException("Employee not found!;");
             employee.Role = role;
             await _employeeRepository.UpdateEmployee(employee);
+        }
+        public async Task DeactivateEmployee(int employeeId)
+        {
+            var employee = await _employeeRepository.GetEmployee(employeeId);
+            if (employee == null)
+                throw new KeyNotFoundException("Employee not found");
+            employee.IsActive = false;
+            await _employeeRepository.UpdateEmployee(employee);
+        }
+        public async Task DeleteEmployee(int employeeId)
+        {
+            await _employeeRepository.DeleteEmployee(employeeId);
         }
     }
 }
