@@ -48,12 +48,12 @@ namespace MovieRental.Infrastructure.Persistence
         }
         private IEnumerable<Movie> AddMovies()
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Images", "movies");
+            //var path = Path.Combine(Directory.GetCurrentDirectory(), "Images", "movies");
 
             var movies = new List<Movie>()
             {
-                new Movie(){Title = "Skazani na Shawshank", Image=$"{path}\\skazani_na_shawshank.jpg", Genre="Dramat", Description="Adaptacja opowiadania Stephena Kinga. Niesłusznie skazany na dożywocie bankier, stara się przetrwać w brutalnym, więziennym świecie.", Director="Frank Darabont", ReleaseDate=DateTime.Parse("1995-04-16"), Count=20, IsAvailable=true, Actors = new List<Actor>(){ new Actor() { FirstName = "Tim", LastName = "Robbins" }, new Actor(){FirstName="Morgan", LastName = "Freeman" } } },
-                new Movie(){Title = "Irlandczyk", Image=$"{path}\\irlandczyk.jpg", Genre="Kryminał", Description="Płatny zabójca Frank Sheeran powraca do sekretów, których strzegł jako lojalny członek rodziny przestępczej Bufalino.", Director="Martin Scorsese", ReleaseDate=DateTime.Parse("2019-11-01"), Count=15, IsAvailable=true, Actors = new List<Actor>(){ new Actor() { FirstName = "Robert", LastName = "De Niro" }, new Actor(){FirstName="Al", LastName = "Pacino" } }}
+                new Movie(){Title = "Skazani na Shawshank", Image=$"images\\movies\\skazani_na_shawshank.jpg", Genre="Dramat", Description="Adaptacja opowiadania Stephena Kinga. Niesłusznie skazany na dożywocie bankier, stara się przetrwać w brutalnym, więziennym świecie.", Director="Frank Darabont", ReleaseDate=DateTime.Parse("1995-04-16"), Count=20, IsAvailable=true, Actors = new List<Actor>(){ new Actor() { FirstName = "Tim", LastName = "Robbins" }, new Actor(){FirstName="Morgan", LastName = "Freeman" } } },
+                new Movie(){Title = "Irlandczyk", Image=$"images\\movies\\irlandczyk.jpg", Genre="Kryminał", Description="Płatny zabójca Frank Sheeran powraca do sekretów, których strzegł jako lojalny członek rodziny przestępczej Bufalino.", Director="Martin Scorsese", ReleaseDate=DateTime.Parse("2019-11-01"), Count=15, IsAvailable=true, Actors = new List<Actor>(){ new Actor() { FirstName = "Robert", LastName = "De Niro" }, new Actor(){FirstName="Al", LastName = "Pacino" } }}
             };
             return movies;
         }
