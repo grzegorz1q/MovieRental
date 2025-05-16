@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { MoviesApiService } from '../../../../core/api/movies-api.service';
+import { MoviesApiService } from '../../../../core/services/api/movies-api.service';
 import { Movie } from '../../../../core/models/movie.model';
 import { NgFor } from '@angular/common';
 import { MovieCardComponent } from "../../components/movie-card/movie-card.component";
+import { NavbarComponent } from "../../../../shared/navbar/navbar.component";
 
 @Component({
   selector: 'app-movies-list',
-  imports: [NgFor, MovieCardComponent],
+  imports: [NgFor, MovieCardComponent, NavbarComponent],
   templateUrl: './movies-list.component.html',
   styleUrl: './movies-list.component.scss'
 })

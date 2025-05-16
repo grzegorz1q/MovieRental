@@ -4,7 +4,7 @@ import { MoviesListComponent } from './features/movies/pages/movies-list/movies-
 
 export const routes: Routes = [
     {
-        path: '', redirectTo: 'login', pathMatch: 'full'
+        path: '', redirectTo: 'movies', pathMatch: 'full'
     },
     {
         path: 'login',

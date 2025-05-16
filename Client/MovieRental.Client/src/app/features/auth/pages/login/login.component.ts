@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthApiService } from '../../../../core/api/auth-api.service';
+import { AccountApiService } from '../../../../core/services/api/account-api.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth/auth.service';
 
 
 
@@ -15,17 +17,30 @@ export class LoginComponent {
     email: '',
     password: ''
   };
-  constructor(private readonly authApiService: AuthApiService) { }
+  errorMessage: string = '';
+  constructor(private readonly accountApiService: AccountApiService, private readonly authService: AuthService, private readonly router: Router) { }
   login() {
     const { email, password } = this.loginObj;
-    this.authApiService.login(email, password).subscribe({
+    this.accountApiService.login(email, password).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
-        // Handle successful login, e.g., store token, redirect, etc.
+        localStorage.setItem('token', response);
+        const role = this.authService.getRole();
+        console.log('User role:', role);
+        switch(role){
+          case 'Admin':
+            this.router.navigateByUrl('/movies');
+            break;
+          case 'Employee':
+            this.router.navigateByUrl('/movies');
+            break;
+          case 'Client':
+            this.router.navigateByUrl('/movies');
+            break;
+        }
       },
       error: (error) => {
-        console.log('Login failed:', error);
-        // Handle login error, e.g., show error message
+        this.errorMessage = error.error;
       }
     });
   }
