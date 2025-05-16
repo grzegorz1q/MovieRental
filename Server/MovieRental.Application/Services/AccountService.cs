@@ -45,7 +45,7 @@ namespace MovieRental.Application.Services
                 if (result == PasswordVerificationResult.Success)
                     return client;
             }
-            throw new UnauthorizedAccessException("Invalid email or password");
+            throw new UnauthorizedAccessException("Niepoprawny email lub hasło");
         }
         public async Task ResetEmployeePassword(int employeeId, ResetPasswordDto resetPasswordDto)
         {
@@ -134,9 +134,9 @@ namespace MovieRental.Application.Services
             bool clientWithPhoneNumberExist = await _clientRepository.IsClientWithPhoneNumber(createClientDto.PhoneNumber);
             bool clientWithEmailExist = await _clientRepository.IsClientWithEmail(createClientDto.Email);
             if (clientWithPhoneNumberExist || clientWithEmailExist)
-                throw new ArgumentException("Client with given phone number or email is already in database!");
+                throw new ArgumentException("Klient o podanym numerze telefonu lub adresie e-mail jest już w bazie danych!");
             if (createClientDto.Password != createClientDto.ConfirmPassword)
-                throw new ArgumentException("Password and confirmation password do not match!");
+                throw new ArgumentException("Hasło i hasło potwierdzające nie są takie same!");
             var client = _mapper.Map<Client>(createClientDto);
             await _clientRepository.AddClient(client);
             var emailBody = $"Witaj {client.FirstName}, aby aktywować swoje konto naciśnij ten link: http://localhost:5178/account/activate/clients/{client.Id}.";

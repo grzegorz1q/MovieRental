@@ -49,7 +49,7 @@ namespace MovieRental.API.Controllers
             try
             {
                 await _accountService.Register(createClientDto);
-                return Ok("Successfully created new client account!");
+                return Ok(new { message = "Successfully created new client account!" });
             }
             catch(ArgumentException ex) 
             {

@@ -1,0 +1,10 @@
+<form>
+    <label for="email">Email</label>
+    <input type="email" [(ngModel)]="loginObj.email" name="email" required>
+    <label for="password">Password</label>
+    <input type="password" [(ngModel)]="loginObj.password" name="password" required>
+    <button (click)="login()">Login</button>
+</form> 
+<div *ngIf="errorMessage" class="error-message">
+    <p>{{errorMessage}}</p>
+</div>

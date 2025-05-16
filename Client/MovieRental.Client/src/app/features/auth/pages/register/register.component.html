@@ -1,0 +1,24 @@
+<form>
+    <label for="firstName">Imię</label>
+    <input type="text" [(ngModel)]="newClient.firstName" name="firstName" >
+    <label for="lastName">Nazwisko</label>
+    <input type="text" [(ngModel)]="newClient.lastName" name="lastName" >
+    <label for="email">Email</label>
+    <input type="email" [(ngModel)]="newClient.email" name="email" >
+    <label for="password">Hasło</label>
+    <input type="password" [(ngModel)]="newClient.password" name="password" >
+    <label for="confirmPassword">Potwierdź hasło</label>
+    <input type="password" [(ngModel)]="newClient.confirmPassword" name="confirmPassword" >
+    <label for="address">Adres</label>
+    <input type="text" [(ngModel)]="newClient.address" name="address" >
+    <label for="phoneNumber">Numer telefonu</label>
+    <input type="text" [(ngModel)]="newClient.phoneNumber" name="phoneNumber" >
+    <button (click)="register()">Zarejestruj się</button>
+</form>
+<div *ngIf="errorMessages.length > 0" class="error-message">
+    <p *ngFor="let error of errorMessages">{{error}}</p>
+</div>
+<div *ngIf="successMessage" class="success-message">
+    <p>{{successMessage}}</p>
+    <button routerLink="/login">Zaloguj się</button>
+</div>
