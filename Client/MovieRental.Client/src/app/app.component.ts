@@ -1,30 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Movie } from './core/api/models/movie.model';
-import { MoviesApiService } from './core/api/movies-api.service';
-import { NgFor } from '@angular/common';
+import { MoviesListComponent } from "./features/movies/pages/movies-list/movies-list.component";
+import { MovieCardComponent } from "./features/movies/components/movie-card/movie-card.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgFor],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'MovieRental.Client';
-  movies: Movie[] = [];
-  constructor(private moviesApiService: MoviesApiService) { }
-  ngOnInit() {
-    this.getMovies();
-  }
-  getMovies() {
-    this.moviesApiService.getMovies().subscribe(
-      movies => {
-        this.movies = movies;
-      },
-      error => {
-        console.error('Error fetching movies:', error);
-      }
-    );
-  }
 }
