@@ -1,20 +1,18 @@
 ﻿using FluentValidation;
 using MovieRental.Application.Dtos.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieRental.Application.Dtos.Validators
 {
     public class CreateClientDtoValidator : AbstractValidator<CreateClientDto>
     {
-        public CreateClientDtoValidator() 
+        public CreateClientDtoValidator()
         {
             RuleFor(x => x.Email)
                 .NotEmpty()
                 .EmailAddress();
+            RuleFor(x => x.PhoneNumber)
+                .Must(p => p.ToString().Length == 9)
+                .WithMessage("Numer telefonu musi mieć 9 cyfr");
         }
     }
 }

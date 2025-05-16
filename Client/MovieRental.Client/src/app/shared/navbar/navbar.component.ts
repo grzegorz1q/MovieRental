@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { LoginComponent } from "../../features/auth/pages/login/login.component";
 import { Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [LoginComponent, RouterLink, NgIf],
+  imports: [RouterLink, NgIf],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
@@ -17,15 +16,15 @@ export class NavbarComponent {
   ngOnInit() {
     this.checkLoginStatus();
     this.role = this.getRole();
-    console.log(this.role);
   }
   checkLoginStatus() {
     const token = localStorage.getItem('token');
-    this.isLoggedIn = !!token; // Set isLoggedIn to true if token exists
+    this.isLoggedIn = !!token; // true jeśli token istnieje, false jeśli nie
   }
   logout() {
     localStorage.removeItem('token');
     this.isLoggedIn = false; 
+    this.router.navigateByUrl('/movies');
   }
   login() {
     this.router.navigateByUrl('/login');

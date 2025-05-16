@@ -5,6 +5,7 @@
   <nav class="navbar-links">
     <a routerLink="/movies">Movies</a>
     <a *ngIf="isLoggedIn && role === 'Client'" routerLink="">Moje wypożyczenia</a>
+    <a *ngIf="isLoggedIn && role === 'Admin'" routerLink="/admin">Panel administratora</a>
     <a *ngIf="isLoggedIn && role === 'Admin'" routerLink="">Dodaj pracownika</a>
     <a *ngIf="isLoggedIn && role === 'Employee'" routerLink="">Dodaj wypożyczenie</a>
     <a *ngIf="isLoggedIn && (role === 'Employee' || role === 'Admin')" routerLink="">Zarządzaj filmami</a>
@@ -12,6 +13,7 @@
     <a *ngIf="isLoggedIn" routerLink="">Moje konto</a>
   </nav>
   <div class="navbar-auth">
-    <button *ngIf="!isLoggedIn" (click)="login()">Login</button>
-    <button *ngIf="isLoggedIn" (click)="logout()">Logout</button>
+    <button *ngIf="!isLoggedIn" (click)="login()">Zaloguj się</button>
+    <button *ngIf="!isLoggedIn" routerLink="/register">Zarejestruj się</button>
+    <button *ngIf="isLoggedIn" (click)="logout()">Wyloguj się</button>
   </div>

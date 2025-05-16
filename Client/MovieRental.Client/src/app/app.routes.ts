@@ -1,6 +1,11 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { MoviesListComponent } from './features/movies/pages/movies-list/movies-list.component';
+import { RegisterComponent } from './features/auth/pages/register/register.component';
+import { AdminDashboardComponent } from './features/admin/pages/admin-dashboard/admin-dashboard.component';
+import { EmployeeDashboardComponent } from './features/employee/pages/employee-dashboard/employee-dashboard.component';
+import { authGuard } from './core/guards/auth.guard';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
     {
@@ -11,7 +16,27 @@ export const routes: Routes = [
         component: LoginComponent
     },
     {
+        path: 'register',
+        component: RegisterComponent
+    },
+    {
         path: 'movies',
         component: MoviesListComponent
+    },
+    {
+        path: 'admin',
+        component: AdminDashboardComponent,
+        canActivate: [authGuard, roleGuard],
+        data: {
+            roles: ['Admin']
+        }
+    },
+    {
+        path: 'employee',
+        component: EmployeeDashboardComponent,
+        canActivate: [authGuard, roleGuard],
+        data: {
+            roles: ['Employee']
+        }
     }
 ];
