@@ -1,0 +1,48 @@
+<div *ngIf="movie" class="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-2xl shadow-lg space-y-6">
+
+  <h1 class="text-3xl font-bold text-gray-800">{{ movie.title }}</h1>
+  <img [src]="movie.image" [alt]="movie.title" class="h-80 object-contain mx-auto rounded-md shadow-md" />
+
+  <div class="text-gray-700 space-y-2">
+    <p><span class="font-semibold">Gatunek:</span> {{ movie.genre }}</p>
+    <p><span class="font-semibold">Opis:</span> {{ movie.description }}</p>
+    <p><span class="font-semibold">Rok wydania:</span> {{ movie.releaseDate }}</p>
+  </div>
+
+  <div class="actors">
+    <p class="text-xl font-semibold text-gray-800">Aktorzy</p>
+    <ul class="list-disc list-inside text-gray-600">
+      <li *ngFor="let actor of movie.actors">
+        {{ actor.firstName }} {{ actor.lastName }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="mt-6">
+    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" (click)="showReviewModal = true">
+        Dodaj recenzję
+    </button>
+    <div *ngIf="showReviewModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" (click)="showReviewModal = false">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md relative" (click)="$event.stopPropagation()">  
+            <app-add-review-modal
+            [movieId]="movieId"
+            (reviewAdded)="showReviewModal = false; getMovieReviews(movieId)"
+            ></app-add-review-modal>
+        </div>
+    </div>
+
+    <div *ngIf="reviews?.length" class="reviews">
+        <h2 class="text-2xl font-semibold text-gray-800 mt-6">Recenzje</h2>
+        <ul class="divide-y divide-gray-200 mt-4">
+        <li *ngFor="let review of reviews" class="py-4">
+            <p class="text-gray-700 italic">“{{ review.comment }}”</p>
+            <p class="text-sm text-gray-500">Ocena: <span class="font-semibold">{{ review.rating }}</span>/10</p>
+        </li>
+        </ul>
+    </div>
+
+    <div *ngIf="!reviews?.length" class="text-gray-500 italic">
+        <p>Brak recenzji</p>
+    </div>
+  </div>
+</div>

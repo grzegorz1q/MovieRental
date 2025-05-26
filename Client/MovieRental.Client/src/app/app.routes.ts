@@ -6,6 +6,8 @@ import { AdminDashboardComponent } from './features/admin/pages/admin-dashboard/
 import { EmployeeDashboardComponent } from './features/employee/pages/employee-dashboard/employee-dashboard.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
+import { MovieDetailsComponent } from './features/movies/pages/movie-details/movie-details.component';
+import { AddReviewModalComponent } from './features/reviews/components/add-review-modal/add-review-modal.component';
 
 export const routes: Routes = [
     {
@@ -38,5 +40,13 @@ export const routes: Routes = [
         data: {
             roles: ['Employee']
         }
+    },
+    {
+        path: 'movies/:id',
+        component: MovieDetailsComponent
+    },
+    {
+        path: 'movies/:id/reviews',
+        component: AddReviewModalComponent
     }
 ];
