@@ -39,7 +39,7 @@
     
     <a *ngIf="isLoggedIn && (role === 'Employee' || role === 'Admin')" routerLink="" class="hover:text-yellow-400 transition-colors">Zarządzaj klientami</a>
     
-    <a *ngIf="isLoggedIn" routerLink="" class="hover:text-yellow-400 transition-colors">Moje konto</a>
+    <a *ngIf="isLoggedIn" routerLink="/account/me" class="hover:text-yellow-400 transition-colors">Moje konto</a>
   </nav>
 
   <!-- Autoryzacja -->

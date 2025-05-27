@@ -17,6 +17,7 @@ export class AddReviewModalComponent {
   };
   @Input() movieId!: number;
   @Output() reviewAdded = new EventEmitter<void>();
+  @Output() closeModal = new EventEmitter<void>();
   constructor(private movieService: MoviesApiService, private route: ActivatedRoute) {}
   addReview() {
     this.movieService.addReview(this.movieId, this.newReview).subscribe({

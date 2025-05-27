@@ -1,0 +1,18 @@
+<app-navbar></app-navbar>
+<div *ngIf="client" class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto my-6 border border-gray-200">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Dane klienta</h2>
+  <p class="mb-2"><strong class="font-medium">Imię:</strong> {{ client.firstName }}</p>
+  <p class="mb-2"><strong class="font-medium">Nazwisko:</strong> {{ client.lastName }}</p>
+  <p class="mb-2"><strong class="font-medium">Email:</strong> {{ client.email }}</p>
+  <p class="mb-2"><strong class="font-medium">Adres:</strong> {{ client.address }}</p>
+  <p class="mb-2"><strong class="font-medium">Telefon:</strong> {{ client.phoneNumber }}</p>
+</div>
+
+
+<div *ngIf="employee" class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto my-6 border border-gray-200">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Dane pracownika</h2>
+  <p class="mb-2"><strong class="font-medium">Imię:</strong> {{ employee.firstName }}</p>
+  <p class="mb-2"><strong class="font-medium">Nazwisko:</strong> {{ employee.lastName }}</p>
+  <p class="mb-2"><strong class="font-medium">Email:</strong> {{ employee.email }}</p>
+  <p class="mb-2"><strong class="font-medium">Rola:</strong> {{ employee.role }}</p>
+</div>

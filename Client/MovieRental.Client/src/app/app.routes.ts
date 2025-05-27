@@ -8,6 +8,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 import { MovieDetailsComponent } from './features/movies/pages/movie-details/movie-details.component';
 import { AddReviewModalComponent } from './features/reviews/components/add-review-modal/add-review-modal.component';
+import { LoggedUserInfoComponent } from './shared/logged-user-info/logged-user-info.component';
 
 export const routes: Routes = [
     {
@@ -48,5 +49,9 @@ export const routes: Routes = [
     {
         path: 'movies/:id/reviews',
         component: AddReviewModalComponent
+    },
+    {
+        path: 'account/me',
+        component: LoggedUserInfoComponent
     }
 ];

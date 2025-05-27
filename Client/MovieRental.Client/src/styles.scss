@@ -1,2 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer;
+}
+
+.btn-success{
+    @apply bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition cursor-pointer;
+}
+
+.btn-danger {
+    @apply bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition cursor-pointer;
+}

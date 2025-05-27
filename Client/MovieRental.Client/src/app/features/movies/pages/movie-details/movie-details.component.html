@@ -1,12 +1,15 @@
+<app-navbar></app-navbar>
 <div *ngIf="movie" class="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-2xl shadow-lg space-y-6">
 
-  <h1 class="text-3xl font-bold text-gray-800">{{ movie.title }}</h1>
+  <header class = "flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">{{ movie.title }}</h1>
+  </header>
   <img [src]="movie.image" [alt]="movie.title" class="h-80 object-contain mx-auto rounded-md shadow-md" />
 
   <div class="text-gray-700 space-y-2">
     <p><span class="font-semibold">Gatunek:</span> {{ movie.genre }}</p>
     <p><span class="font-semibold">Opis:</span> {{ movie.description }}</p>
-    <p><span class="font-semibold">Rok wydania:</span> {{ movie.releaseDate }}</p>
+    <p><span class="font-semibold">Data premiery:</span> {{ movie.releaseDate | date: 'dd.MM.yyyy' }}</p>
   </div>
 
   <div class="actors">
@@ -19,7 +22,7 @@
   </div>
 
   <div class="mt-6">
-    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" (click)="showReviewModal = true">
+    <button class="btn-primary" (click)="showReviewModal = true">
         Dodaj recenzję
     </button>
     <div *ngIf="showReviewModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" (click)="showReviewModal = false">
@@ -27,14 +30,15 @@
             <app-add-review-modal
             [movieId]="movieId"
             (reviewAdded)="showReviewModal = false; getMovieReviews(movieId)"
+            (closeModal)="showReviewModal = false;"
             ></app-add-review-modal>
         </div>
     </div>
 
     <div *ngIf="reviews?.length" class="reviews">
         <h2 class="text-2xl font-semibold text-gray-800 mt-6">Recenzje</h2>
-        <ul class="divide-y divide-gray-200 mt-4">
-        <li *ngFor="let review of reviews" class="py-4">
+        <ul class="divide-y divide-gray-200 mt-2">
+        <li *ngFor="let review of reviews">
             <p class="text-gray-700 italic">“{{ review.comment }}”</p>
             <p class="text-sm text-gray-500">Ocena: <span class="font-semibold">{{ review.rating }}</span>/10</p>
         </li>

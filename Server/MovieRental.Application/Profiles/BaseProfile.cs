@@ -37,7 +37,8 @@ namespace MovieRental.Application.Profiles
 
             //------EMPLOYEES------
             CreateMap<CreateEmployeeDto, Employee>();
-            CreateMap<Employee, ReadEmployeeDto>();
+            CreateMap<Employee, ReadEmployeeDto>()
+                .ForMember(dest => dest.Role, x => x.MapFrom(src => src.Role.ToString()));
 
             //------ACTORS------
             CreateMap<CreateActorDto, Actor>();

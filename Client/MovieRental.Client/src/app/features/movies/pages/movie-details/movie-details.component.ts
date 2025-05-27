@@ -2,14 +2,15 @@ import { Component } from '@angular/core';
 import { Movie } from '../../../../core/models/movie.model';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MoviesApiService } from '../../../../core/services/api/movies-api.service';
-import { NgFor, NgIf } from '@angular/common';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { Review } from '../../../../core/models/review.model';
 import { FormsModule } from '@angular/forms';
 import { AddReviewModalComponent } from '../../../reviews/components/add-review-modal/add-review-modal.component';
+import { NavbarComponent } from "../../../../shared/navbar/navbar.component";
 
 @Component({
   selector: 'app-movie-details',
-  imports: [NgIf, NgFor, FormsModule, AddReviewModalComponent],
+  imports: [NgIf, NgFor, FormsModule, AddReviewModalComponent, DatePipe, RouterLink, NavbarComponent],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.scss'
 })
