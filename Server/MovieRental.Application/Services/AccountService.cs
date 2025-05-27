@@ -118,7 +118,6 @@ namespace MovieRental.Application.Services
             var employee = await _employeeRepository.GetEmployee(employeeId);
             if (employee == null)
                 throw new KeyNotFoundException("Employee not found!");
-
             return _mapper.Map<ReadEmployeeDto>(employee);
         }
         public async Task<ReadClientDto> GetLoggedClientInfo(int clientId)
@@ -126,7 +125,7 @@ namespace MovieRental.Application.Services
             var client = await _clientRepository.GetClient(clientId);
             if (client == null)
                 throw new KeyNotFoundException("Client not found!");
-
+            
             return _mapper.Map<ReadClientDto>(client);
         }
         public async Task Register(CreateClientDto createClientDto)

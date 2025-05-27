@@ -26,7 +26,6 @@ export class LoginComponent {
       next: (response) => {
         localStorage.setItem('token', response);
         const role = this.authService.getRole();
-        console.log('User role:', role);
         switch(role){
           case 'Admin':
             this.router.navigateByUrl('/admin');

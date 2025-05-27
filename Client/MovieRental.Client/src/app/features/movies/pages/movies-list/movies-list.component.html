@@ -1,5 +1,6 @@
-<div class="movies-list">
-  <h1>Movies List</h1>
-  <app-movie-card *ngFor="let movie of movies" [movie]="movie"></app-movie-card>
-</div>
 <app-navbar></app-navbar>
+<div class="p-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <app-movie-card *ngFor="let movie of movies" [movie]="movie"></app-movie-card>
+  </div>
+</div>

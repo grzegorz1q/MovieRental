@@ -1,0 +1,41 @@
+<form class="space-y-4">
+  <div>
+    <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">
+      Twoja recenzja
+    </label>
+    <textarea
+      id="comment"
+      name="comment"
+      [(ngModel)]="newReview.comment"
+      rows="4"
+      placeholder="Napisz swoją recenzję..."
+      class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-4 py-3 resize-none shadow-sm transition-all"
+      required
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="rating" class="block text-sm font-medium text-gray-700 mb-1">
+      Ocena (1-10)
+    </label>
+    <input
+      id="rating"
+      type="number"
+      name="rating"
+      [(ngModel)]="newReview.rating"
+      placeholder="Podaj ocenę"
+      min="1"
+      max="10"
+      class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-4 py-3 shadow-sm transition-all"
+      required
+    />
+  </div>
+  <div class = "flex items-center justify-between">
+    <button (click)="addReview()" class="btn-success">
+      Dodaj recenzję
+    </button>
+    <button type="button" (click)="closeModal.emit()" class="btn-danger">
+      Anuluj
+    </button>
+  </div>
+</form>
