@@ -1,9 +1,9 @@
-<div class="navbar">
+<!-- <div class="navbar">
   <div class="navbar-logo">
     <a routerLink="/">Movie Rental</a>
   </div>
   <nav class="navbar-links">
-    <a routerLink="/movies">Movies</a>
+    <a routerLink="/movies">Filmy</a>
     <a *ngIf="isLoggedIn && role === 'Client'" routerLink="">Moje wypożyczenia</a>
     <a *ngIf="isLoggedIn && role === 'Admin'" routerLink="/admin">Panel administratora</a>
     <a *ngIf="isLoggedIn && role === 'Admin'" routerLink="">Dodaj pracownika</a>
@@ -16,4 +16,38 @@
     <button *ngIf="!isLoggedIn" (click)="login()">Zaloguj się</button>
     <button *ngIf="!isLoggedIn" routerLink="/register">Zarejestruj się</button>
     <button *ngIf="isLoggedIn" (click)="logout()">Wyloguj się</button>
+  </div> -->
+  <div class="navbar bg-gray-800 text-white px-6 py-3 flex items-center justify-between shadow-md">
+  <!-- Logo -->
+  <div class="navbar-logo text-xl font-bold">
+    <a routerLink="/" class="hover:text-yellow-400 transition-colors">Movie Rental</a>
   </div>
+
+  <!-- Linki nawigacyjne -->
+  <nav class="navbar-links flex space-x-4">
+    <a routerLink="/movies" class="hover:text-yellow-400 transition-colors">Filmy</a>
+    
+    <a *ngIf="isLoggedIn && role === 'Client'" routerLink="" class="hover:text-yellow-400 transition-colors">Moje wypożyczenia</a>
+    
+    <a *ngIf="isLoggedIn && role === 'Admin'" routerLink="/admin" class="hover:text-yellow-400 transition-colors">Panel administratora</a>
+    
+    <a *ngIf="isLoggedIn && role === 'Admin'" routerLink="" class="hover:text-yellow-400 transition-colors">Dodaj pracownika</a>
+    
+    <a *ngIf="isLoggedIn && role === 'Employee'" routerLink="" class="hover:text-yellow-400 transition-colors">Dodaj wypożyczenie</a>
+    
+    <a *ngIf="isLoggedIn && (role === 'Employee' || role === 'Admin')" routerLink="" class="hover:text-yellow-400 transition-colors">Zarządzaj filmami</a>
+    
+    <a *ngIf="isLoggedIn && (role === 'Employee' || role === 'Admin')" routerLink="" class="hover:text-yellow-400 transition-colors">Zarządzaj klientami</a>
+    
+    <a *ngIf="isLoggedIn" routerLink="/account/me" class="hover:text-yellow-400 transition-colors">Moje konto</a>
+  </nav>
+
+  <!-- Autoryzacja -->
+  <div class="navbar-auth flex space-x-3">
+    <button *ngIf="!isLoggedIn" (click)="login()" class="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300 transition">Zaloguj się</button>
+    
+    <button *ngIf="!isLoggedIn" routerLink="/register" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-400 transition">Zarejestruj się</button>
+    
+    <button *ngIf="isLoggedIn" (click)="logout()" class="bg-red-500 px-4 py-2 rounded hover:bg-red-400 transition">Wyloguj się</button>
+  </div>
+</div>

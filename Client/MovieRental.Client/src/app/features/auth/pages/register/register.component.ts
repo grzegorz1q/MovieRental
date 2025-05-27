@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { AccountApiService } from '../../../../core/services/api/account-api.service';
 import { Router, RouterLink } from '@angular/router';
-import { CreateClient } from '../../../../core/models/createClient.model';
+import { Client } from '../../../../core/models/client.model';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -12,14 +13,14 @@ import { NgFor, NgIf } from '@angular/common';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  newClient: CreateClient = {
+  newClient: Client = {
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
     address: '',
-    phoneNumber: undefined
+    phoneNumber: null!
   };
   errorMessages: string[] = [];
   successMessage: string = '';
@@ -29,7 +30,6 @@ export class RegisterComponent {
     this.accountApiService.register(this.newClient).subscribe({
       next: (response) => {
         this.errorMessages = [];
-        console.log('Registration successful:', response); //Dodać jakiś wyświetlający się na ekranie komunikat
         this.successMessage = 'Rejestracja zakończona sukcesem. Sprawdź swoją skrzynkę e-mail, aby aktywować konto.';
       },
       error: (error) => {

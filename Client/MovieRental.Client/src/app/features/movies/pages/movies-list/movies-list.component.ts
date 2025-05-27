@@ -11,7 +11,7 @@ import { NavbarComponent } from "../../../../shared/navbar/navbar.component";
   templateUrl: './movies-list.component.html',
   styleUrl: './movies-list.component.scss'
 })
-export class MoviesListComponent {
+export class MoviesListComponent{
   title = "Lista filmów";
   
   movies: Movie[] = [];
