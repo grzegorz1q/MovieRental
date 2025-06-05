@@ -26,7 +26,7 @@ namespace MovieRental.API.Controllers
                 await _clientService.AddClient(createClientDto);
                 return Ok(createClientDto);
             }
-            catch(ArgumentException ex) 
+            catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
                 return BadRequest(ex.Message);
@@ -44,10 +44,28 @@ namespace MovieRental.API.Controllers
                 var rents = await _clientService.GetClientRents(clientId);
                 return Ok(rents);
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
                 return NotFound(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Zwraca listę wszystkich klientów - Admin, Employee
+        /// </summary>
+        [HttpGet]
+        [Authorize(Roles = "Admin, Employee")]
+        public async Task<IActionResult> GetAllClients()
+        {
+            try
+            {
+                var clients = await _clientService.GetAllClients();
+                return Ok(clients);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest();
             }
         }
     }

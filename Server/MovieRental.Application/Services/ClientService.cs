@@ -15,22 +15,25 @@ namespace MovieRental.Application.Services
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IRentRepository _rentRepository;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
-        public ClientService(IClientRepository clientRepository, IRentRepository rentRepository, IEmailService emailService, IMapper mapper)
+        public ClientService(IClientRepository clientRepository, IRentRepository rentRepository, IEmailService emailService, IEmployeeRepository employeeRepository, IMapper mapper)
         {
             _clientRepository = clientRepository;
             _rentRepository = rentRepository;
             _emailService = emailService;
+            _employeeRepository = employeeRepository;
             _mapper = mapper;
         }
         public async Task AddClient(CreateClientDto createClientDto)
         {
             bool clientWithPhoneNumberExist = await _clientRepository.IsClientWithPhoneNumber(createClientDto.PhoneNumber);
             bool clientWithEmailExist = await _clientRepository.IsClientWithEmail(createClientDto.Email);
-            if (clientWithPhoneNumberExist || clientWithEmailExist)
-                throw new ArgumentException("Client with given phone number or email is already in database!");
+            bool employeeWithEmailExist = await _employeeRepository.IsEmployeeWithEmail(createClientDto.Email);
+            if (clientWithPhoneNumberExist || clientWithEmailExist || employeeWithEmailExist)
+                throw new ArgumentException("W bazie istnieje już klient lub pracownik o podanym numerze telefonu lub adresie email!");
             var client = _mapper.Map<Client>(createClientDto);
             var tempPassword = Guid.NewGuid().ToString().Substring(0, 8);
             client.Password = tempPassword;
@@ -45,6 +48,11 @@ namespace MovieRental.Application.Services
                 throw new KeyNotFoundException("Client not found!");
             var clientRents = await _rentRepository.GetClientRents(clientId);
             return _mapper.Map<IEnumerable<ReadRentDto>>(clientRents);
+        }
+        public async Task<IEnumerable<ReadClientDto>> GetAllClients()
+        {
+            var clients = await _clientRepository.GetAllClients();
+            return _mapper.Map<IEnumerable<ReadClientDto>>(clients);
         }
     }
 }

@@ -13,12 +13,14 @@ namespace MovieRental.Application.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IClientRepository _clientRepository;
         private readonly IPasswordHasher<Employee> _passwordHasher;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
-        public EmployeeService(IEmailService emailService, IEmployeeRepository employeeRepository, IPasswordHasher<Employee> passwordHasher, IMapper mapper)
+        public EmployeeService(IEmailService emailService, IEmployeeRepository employeeRepository, IClientRepository clientRepository, IPasswordHasher<Employee> passwordHasher, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
+            _clientRepository = clientRepository;
             _passwordHasher = passwordHasher;
             _emailService = emailService;
             _mapper = mapper;
@@ -26,10 +28,11 @@ namespace MovieRental.Application.Services
         public async Task AddEmployee(CreateEmployeeDto employeeDto)
         {
             if (!Enum.IsDefined(typeof(Role), employeeDto.Role))
-                throw new ArgumentException("Invalid role value.");
+                throw new ArgumentException("Nieprawidłowa rola!");
             bool isEmployee = await _employeeRepository.IsEmployeeWithEmail(employeeDto.Email);
-            if(isEmployee)
-                throw new ArgumentException("Employee with given email is already in database!");
+            bool IsClientWithEmail = await _clientRepository.IsClientWithEmail(employeeDto.Email);
+            if (isEmployee || IsClientWithEmail)
+                throw new ArgumentException("W bazie istnieje już pracownik lub klient o podanym adresie email!");
             
             var tempPassword = Guid.NewGuid().ToString().Substring(0,8);
             var employee = _mapper.Map<Employee>(employeeDto);

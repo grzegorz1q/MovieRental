@@ -1,6 +1,8 @@
 export interface Rent {
     id?: number;
-    rentDate: Date;
+    rentDate?: Date;
     movieId: number;
     clientId: number;
+    movieTitle?: string,
+    clientName?: string;
 }

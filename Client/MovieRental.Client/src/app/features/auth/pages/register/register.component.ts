@@ -24,16 +24,18 @@ export class RegisterComponent {
   };
   errorMessages: string[] = [];
   successMessage: string = '';
+  isLoading: boolean = false;
   constructor(private readonly accountApiService: AccountApiService, private readonly router: Router) { }
 
   register() {
+    this.isLoading = true;
     this.accountApiService.register(this.newClient).subscribe({
       next: (response) => {
         this.errorMessages = [];
         this.successMessage = 'Rejestracja zakończona sukcesem. Sprawdź swoją skrzynkę e-mail, aby aktywować konto.';
+        this.isLoading = false;
       },
       error: (error) => {
-        console.log('Wiadomosc');
         const errData = error.error;
         this.errorMessages = [];
         if (errData.errors && typeof errData.errors === 'object') {
@@ -47,6 +49,7 @@ export class RegisterComponent {
         else if (typeof errData === 'string') {
           this.errorMessages.push(errData);
         }
+        this.isLoading = false;
       }
     });
   }

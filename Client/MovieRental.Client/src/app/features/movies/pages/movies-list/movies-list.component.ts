@@ -15,20 +15,20 @@ export class MoviesListComponent{
   title = "Lista filmów";
   
   movies: Movie[] = [];
-    constructor(private moviesApiService: MoviesApiService) { }
-    ngOnInit() {
-      this.getMovies();
-    }
-    getMovies() {
-      this.moviesApiService.getMovies().subscribe(
-        {
-          next: (movies) => {
-            this.movies = movies;
-          },
-          error: (error) => {
-            console.error('Error fetching movies:', error);
-          }
+  constructor(private moviesApiService: MoviesApiService) { }
+  ngOnInit() {
+    this.getMovies();
+  }
+  getMovies() {
+    this.moviesApiService.getMovies().subscribe(
+      {
+        next: (movies) => {
+          this.movies = movies;
+        },
+        error: (error) => {
+          console.error('Error fetching movies:', error);
         }
-      );
-    }
+      }
+    );
+  }
 }
