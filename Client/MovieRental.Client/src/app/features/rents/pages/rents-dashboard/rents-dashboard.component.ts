@@ -49,7 +49,7 @@ export class RentsDashboardComponent {
       },
       error: (error) =>{
         this.successMessage = '';
-        this.errorMessage = 'Wybrany klient posiada już ten film'
+        this.errorMessage = 'Wybrany klient posiada już ten film';
       }
     })
   }
