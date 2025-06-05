@@ -46,5 +46,10 @@ namespace MovieRental.Application.Services
             var clientRents = await _rentRepository.GetClientRents(clientId);
             return _mapper.Map<IEnumerable<ReadRentDto>>(clientRents);
         }
+        public async Task<IEnumerable<ReadClientDto>> GetAllClients()
+        {
+            var clients = await _clientRepository.GetAllClients();
+            return _mapper.Map<IEnumerable<ReadClientDto>>(clients);
+        }
     }
 }
