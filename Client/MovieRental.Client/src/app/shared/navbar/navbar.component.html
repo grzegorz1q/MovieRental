@@ -29,11 +29,9 @@
     
     <a *ngIf="isLoggedIn && role === 'Client'" routerLink="" class="hover:text-yellow-400 transition-colors">Moje wypożyczenia</a>
     
-    <a *ngIf="isLoggedIn && role === 'Admin'" routerLink="/admin" class="hover:text-yellow-400 transition-colors">Panel administratora</a>
+    <a *ngIf="isLoggedIn && role === 'Admin'" routerLink="/employees" class="hover:text-yellow-400 transition-colors">Zarządzaj pracownikami</a>
     
-    <a *ngIf="isLoggedIn && role === 'Admin'" routerLink="" class="hover:text-yellow-400 transition-colors">Dodaj pracownika</a>
-    
-    <a *ngIf="isLoggedIn && role === 'Employee'" routerLink="" class="hover:text-yellow-400 transition-colors">Dodaj wypożyczenie</a>
+    <a *ngIf="isLoggedIn && (role === 'Employee' || role === 'Admin')" routerLink="/rents" class="hover:text-yellow-400 transition-colors">Wypożyczenia</a>
     
     <a *ngIf="isLoggedIn && (role === 'Employee' || role === 'Admin')" routerLink="" class="hover:text-yellow-400 transition-colors">Zarządzaj filmami</a>
     
@@ -48,6 +46,6 @@
     
     <button *ngIf="!isLoggedIn" routerLink="/register" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-400 transition">Zarejestruj się</button>
     
-    <button *ngIf="isLoggedIn" (click)="logout()" class="bg-red-500 px-4 py-2 rounded hover:bg-red-400 transition">Wyloguj się</button>
+    <button *ngIf="isLoggedIn" (click)="logout()" class="btn-danger">Wyloguj się</button>
   </div>
 </div>

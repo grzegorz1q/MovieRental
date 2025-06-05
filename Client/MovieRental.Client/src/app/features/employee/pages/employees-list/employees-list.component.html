@@ -1,0 +1,29 @@
+<app-navbar></app-navbar>
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Lista pracowników</h2>
+    <button class="btn-success" (click)="showAddEmployeeModal = true">Dodaj pracownika</button>
+  </div>
+  <div *ngIf="showAddEmployeeModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" (click)="showAddEmployeeModal = false">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md relative" (click)="$event.stopPropagation()">  
+        <app-add-employee-modal
+        (employeeAdded)="showAddEmployeeModal = false; message='Dodano nowego pracownika. Musi on aktywować swoje konto aby pokazał się na liście. Na jego maila wysłano hasło tymczasowe.'"
+        (closeModal)="showAddEmployeeModal = false;"
+        ></app-add-employee-modal>
+    </div>
+  </div>
+  <div *ngIf="message" class="mt-6 mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-md text-center">
+    {{message}}
+  </div>
+  <div *ngIf="employees.length > 0; else noEmployees" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      *ngFor="let employee of employees"
+      class="bg-white rounded-xl shadow p-6 border border-gray-200 hover:shadow-md transition"
+    >
+    <app-employee-card [employee]="employee" (employeeRemoved)="getEmployees()"></app-employee-card>
+    </div>
+  </div>
+  <ng-template #noEmployees>
+    <p class="text-center text-gray-500">Brak pracowników do wyświetlenia.</p>
+  </ng-template>
+</div>

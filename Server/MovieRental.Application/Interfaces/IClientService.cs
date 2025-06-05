@@ -12,5 +12,6 @@ namespace MovieRental.Application.Interfaces
     {
         Task AddClient(CreateClientDto createClientDto);
         Task<IEnumerable<ReadRentDto>> GetClientRents(int clientId);
+        Task<IEnumerable<ReadClientDto>> GetAllClients();
     }
 }

@@ -133,7 +133,7 @@ namespace MovieRental.Application.Services
             bool clientWithPhoneNumberExist = await _clientRepository.IsClientWithPhoneNumber(createClientDto.PhoneNumber);
             bool clientWithEmailExist = await _clientRepository.IsClientWithEmail(createClientDto.Email);
             if (clientWithPhoneNumberExist || clientWithEmailExist)
-                throw new ArgumentException("Klient o podanym numerze telefonu lub adresie e-mail jest już w bazie danych!");
+                throw new ArgumentException("Klient lub pracownik o podanym numerze telefonu lub adresie e-mail jest już w bazie danych!");
             if (createClientDto.Password != createClientDto.ConfirmPassword)
                 throw new ArgumentException("Hasło i hasło potwierdzające nie są takie same!");
             var client = _mapper.Map<Client>(createClientDto);

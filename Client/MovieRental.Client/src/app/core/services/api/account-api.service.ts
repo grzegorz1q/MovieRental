@@ -20,4 +20,10 @@ export class AccountApiService {
   getInfoAboutLoggedUser(): Observable<Client | Employee>{
     return this.http.get<Client | Employee>(`${this.apiUrl}/me`);
   }
+  resetPassword(oldPassword: string, newPassword: string, confirmPassword: string){
+    return this.http.post(`${this.apiUrl}/reset-password`, {oldPassword, newPassword, confirmPassword});
+  }
+  forgotPassword(email: string){
+    return this.http.post(`${this.apiUrl}/forgot-password?email=${encodeURIComponent(email)}`, null, {responseType: 'text'});
+  }
 }

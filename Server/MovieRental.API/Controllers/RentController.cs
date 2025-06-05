@@ -25,7 +25,7 @@ namespace MovieRental.API.Controllers
             try
             {
                 await _rentService.AddRent(createRentDto);
-                return Ok("Rent successfully added!");
+                return Ok(createRentDto);
             }
             catch (KeyNotFoundException ex)
             {
