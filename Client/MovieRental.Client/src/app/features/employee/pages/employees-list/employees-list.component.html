@@ -7,7 +7,7 @@
   <div *ngIf="showAddEmployeeModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/30" (click)="showAddEmployeeModal = false">
     <div class="bg-white rounded-lg p-6 w-full max-w-md relative" (click)="$event.stopPropagation()">  
         <app-add-employee-modal
-        (employeeAdded)="showAddEmployeeModal = false; message='Dodano nowego pracownika. Musi on aktywować swoje konto aby pokazał się na liście'"
+        (employeeAdded)="showAddEmployeeModal = false; message='Dodano nowego pracownika. Musi on aktywować swoje konto aby pokazał się na liście. Na jego maila wysłano hasło tymczasowe.'"
         (closeModal)="showAddEmployeeModal = false;"
         ></app-add-employee-modal>
     </div>

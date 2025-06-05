@@ -17,6 +17,7 @@ export class AddEmployeeModalComponent {
     email: '',
     role: ''
   };
+  message: string = '';
   isLoading: boolean = false
   @Output() employeeAdded = new EventEmitter<void>();
   @Output() closeModal = new EventEmitter<void>();
@@ -26,10 +27,12 @@ export class AddEmployeeModalComponent {
     this.employeeService.addEmployee(this.newEmployee).subscribe({
       next: (response) =>{
         this.isLoading = false;
+        this.message = '';
         this.employeeAdded.emit();
       },
       error: (error) =>{
-        console.error('Error adding employee: ', error);
+        this.message = '';
+        this.message = error.error;
         this.isLoading = false;
       }
     })

@@ -11,6 +11,9 @@ export class RentsApiService {
   private readonly apiUrl = `${environment.apiUrl}/rents`;
   constructor(private http: HttpClient) { }
   addRent(rent: Rent): Observable<Rent>{
-    return this.http.post<Rent>(`${environment.apiUrl}/rents`, rent);
+    return this.http.post<Rent>(`${this.apiUrl}`, rent);
+  }
+  returnMovie(rentId: number): Observable<string>{
+    return this.http.delete(`${this.apiUrl}/${rentId}`, {responseType: 'text'});
   }
 }

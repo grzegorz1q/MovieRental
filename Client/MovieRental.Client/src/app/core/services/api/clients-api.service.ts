@@ -13,7 +13,7 @@ export class ClientsApiService {
   constructor(private http: HttpClient) { }
 
   getClientRents(id: number): Observable<Rent[]>{
-    return this.http.get<Rent[]>(`${environment.apiUrl}/${id}/rents`);
+    return this.http.get<Rent[]>(`${this.apiUrl}/${id}/rents`);
   }
   getClients(): Observable<Client[]>{
     return this.http.get<Client[]>(this.apiUrl);
