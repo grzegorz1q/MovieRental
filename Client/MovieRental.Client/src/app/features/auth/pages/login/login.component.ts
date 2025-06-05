@@ -26,18 +26,8 @@ export class LoginComponent {
       next: (response) => {
         localStorage.setItem('token', response);
         const role = this.authService.getRole();
-        switch(role){
-          case 'Admin':
-            this.router.navigateByUrl('/admin');
-            break;
-          case 'Employee':
-            this.router.navigateByUrl('/employee');
-            break;
-          case 'Client':
-            this.router.navigateByUrl('/movies');
-            break;
-        }
-      },
+        this.router.navigateByUrl('/movies');
+        },
       error: (error) => {
         this.errorMessage = error.error;
       }

@@ -3,12 +3,12 @@ import { LoginComponent } from './features/auth/pages/login/login.component';
 import { MoviesListComponent } from './features/movies/pages/movies-list/movies-list.component';
 import { RegisterComponent } from './features/auth/pages/register/register.component';
 import { AdminDashboardComponent } from './features/admin/pages/admin-dashboard/admin-dashboard.component';
-import { EmployeeDashboardComponent } from './features/employee/pages/employee-dashboard/employee-dashboard.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 import { MovieDetailsComponent } from './features/movies/pages/movie-details/movie-details.component';
 import { AddReviewModalComponent } from './features/reviews/components/add-review-modal/add-review-modal.component';
 import { LoggedUserInfoComponent } from './shared/logged-user-info/logged-user-info.component';
+import { EmployeesListComponent } from './features/employee/pages/employees-list/employees-list.component';
 
 export const routes: Routes = [
     {
@@ -35,11 +35,11 @@ export const routes: Routes = [
         }
     },
     {
-        path: 'employee',
-        component: EmployeeDashboardComponent,
+        path: 'employees',
+        component: EmployeesListComponent,
         canActivate: [authGuard, roleGuard],
         data: {
-            roles: ['Employee']
+            roles: ['Admin']
         }
     },
     {

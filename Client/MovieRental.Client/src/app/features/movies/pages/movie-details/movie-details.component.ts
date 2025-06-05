@@ -10,7 +10,7 @@ import { NavbarComponent } from "../../../../shared/navbar/navbar.component";
 
 @Component({
   selector: 'app-movie-details',
-  imports: [NgIf, NgFor, FormsModule, AddReviewModalComponent, DatePipe, RouterLink, NavbarComponent],
+  imports: [NgIf, NgFor, FormsModule, AddReviewModalComponent, DatePipe, NavbarComponent],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.scss'
 })
