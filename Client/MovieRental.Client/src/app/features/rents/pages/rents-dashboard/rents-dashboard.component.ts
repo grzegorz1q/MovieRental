@@ -65,7 +65,6 @@ export class RentsDashboardComponent {
     }
   });
 }
-
   getClients(){
     this.clientsService.getClients().subscribe({
       next: (clients) =>{
@@ -86,9 +85,6 @@ export class RentsDashboardComponent {
       }
     })
   }
-
-
-  //Pomocnicze
   toggleClientRents(clientId: number) {
     if (this.expandedClientId === clientId) {
       this.expandedClientId = null;
