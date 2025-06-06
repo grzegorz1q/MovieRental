@@ -38,7 +38,7 @@ namespace MovieRental.Application.Services
             var tempPassword = Guid.NewGuid().ToString().Substring(0, 8);
             client.Password = tempPassword;
             await _clientRepository.AddClient(client);
-            var emailBody = $"Witaj {client.FirstName}. Jesteś nowym klientem wypożyczalni filmów. Twoje tymczasowe hasło to: {tempPassword}";
+            var emailBody = $"Witaj {client.FirstName}. Jesteś nowym klientem wypożyczalni filmów. Aktywuj swoje konto: http://localhost:5178/account/activate/clients/{client.Id}, Twoje tymczasowe hasło to: {tempPassword}";
             await _emailService.SendEmail(client.Email, "Twoje nowe konto", emailBody);
         }
         public async Task<IEnumerable<ReadRentDto>> GetClientRents(int clientId)
@@ -53,6 +53,10 @@ namespace MovieRental.Application.Services
         {
             var clients = await _clientRepository.GetAllClients();
             return _mapper.Map<IEnumerable<ReadClientDto>>(clients);
+        }
+        public async Task DeleteClient(int clientId)
+        {
+            await _clientRepository.DeleteClient(clientId);
         }
     }
 }

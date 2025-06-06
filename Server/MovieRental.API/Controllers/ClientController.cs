@@ -68,5 +68,24 @@ namespace MovieRental.API.Controllers
                 return BadRequest();
             }
         }
+
+        /// <summary>
+        /// Usuwa konto klienta - Admin, Employee
+        /// </summary>
+        [HttpDelete("{clientId}")]
+        [Authorize(Roles = "Admin, Employee")]
+        public async Task<IActionResult> DeleteClient([FromRoute] int clientId)
+        {
+            try
+            {
+                await _clientService.DeleteClient(clientId);
+                return Ok("Client removed from database");
+            }
+            catch(KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+        }
     }
 }

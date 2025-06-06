@@ -24,10 +24,10 @@
   </div>
 
   <!-- Linki nawigacyjne -->
-  <nav class="navbar-links flex space-x-4">
+  <nav class="navbar-links flex space-x-6">
     <a routerLink="/movies" class="hover:text-yellow-400 transition-colors">Filmy</a>
     
-    <a *ngIf="isLoggedIn && role === 'Client'" routerLink="" class="hover:text-yellow-400 transition-colors">Moje wypożyczenia</a>
+    <a *ngIf="isLoggedIn && role === 'Client'" routerLink="/my-rents" class="hover:text-yellow-400 transition-colors">Moje wypożyczenia</a>
     
     <a *ngIf="isLoggedIn && role === 'Admin'" routerLink="/employees" class="hover:text-yellow-400 transition-colors">Zarządzaj pracownikami</a>
     
@@ -35,9 +35,11 @@
     
     <a *ngIf="isLoggedIn && (role === 'Employee' || role === 'Admin')" routerLink="" class="hover:text-yellow-400 transition-colors">Zarządzaj filmami</a>
     
-    <a *ngIf="isLoggedIn && (role === 'Employee' || role === 'Admin')" routerLink="" class="hover:text-yellow-400 transition-colors">Zarządzaj klientami</a>
+    <a *ngIf="isLoggedIn && (role === 'Employee' || role === 'Admin')" routerLink="/clients" class="hover:text-yellow-400 transition-colors">Zarządzaj klientami</a>
     
     <a *ngIf="isLoggedIn" routerLink="/account/me" class="hover:text-yellow-400 transition-colors">Moje konto</a>
+
+    <a routerLink="/movies-ai" class="hover:text-yellow-400 transition-colors">TOP filmy według AI</a>
   </nav>
 
   <!-- Autoryzacja -->

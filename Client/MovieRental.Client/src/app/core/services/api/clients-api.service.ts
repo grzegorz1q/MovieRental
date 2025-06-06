@@ -18,4 +18,10 @@ export class ClientsApiService {
   getClients(): Observable<Client[]>{
     return this.http.get<Client[]>(this.apiUrl);
   }
+  addClient(client: Client): Observable<Client>{
+    return this.http.post<Client>(`${this.apiUrl}`, client);
+  }
+  removeClient(id: number): Observable<string>{
+    return this.http.delete(`${this.apiUrl}/${id}`, {responseType: 'text'});
+  }
 }

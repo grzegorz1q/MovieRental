@@ -12,10 +12,10 @@ export const roleGuard: CanActivateFn = (route, state) => {
   }
   alert("Nie masz uprawnień do tej strony");
   if(userRole === 'Admin'){
-    router.navigateByUrl('/admin');
+    router.navigateByUrl('/movies');
   }
   else if(userRole === 'Employee'){
-    router.navigateByUrl('/employee');
+    router.navigateByUrl('/movies');
   }
   else{
   router.navigateByUrl('/movies');

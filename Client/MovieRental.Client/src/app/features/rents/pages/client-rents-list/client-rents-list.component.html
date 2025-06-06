@@ -1,0 +1,17 @@
+<app-navbar></app-navbar>
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Lista wypożyczeń</h2>
+  </div>
+  <div *ngIf="rents.length > 0; else noRents" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      *ngFor="let rent of rents"
+      class="bg-white rounded-xl shadow p-6 border border-gray-200 hover:shadow-md transition"
+    >
+    <app-rent-card [rent]="rent"></app-rent-card>
+    </div>
+  </div>
+  <ng-template #noRents>
+    <p class="text-center text-gray-500">Brak wypożyczeń do wyświetlenia.</p>
+  </ng-template>
+</div>

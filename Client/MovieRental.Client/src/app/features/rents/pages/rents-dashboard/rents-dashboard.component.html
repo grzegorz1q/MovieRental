@@ -1,6 +1,5 @@
 <app-navbar></app-navbar>
 
-<!-- Formularz dodawania wypożyczenia -->
 <div class="max-w-3xl mx-auto mt-6 p-6 bg-white rounded-2xl shadow-lg">
   <h3 class="text-2xl font-semibold mb-6 text-gray-900 text-center">Dodaj wypożyczenie</h3>
   
@@ -47,12 +46,10 @@
   </div>
 </div>
 
-<!-- Lista klientów -->
 <div class="max-w-5xl mx-auto px-4 py-10">
   <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Lista klientów</h2>
 
   <div *ngFor="let client of clients" class="mb-6 border rounded-2xl shadow-sm overflow-hidden">
-    <!-- Główka klienta -->
     <div 
       class="flex items-center justify-between bg-gray-100 px-6 py-4 cursor-pointer hover:bg-gray-200 transition"
       (click)="toggleClientRents(client.id!)"
@@ -66,7 +63,6 @@
       </span>
     </div>
 
-    <!-- Lista wypożyczeń -->
     <div *ngIf="expandedClientId === client.id" class="bg-white px-6 py-4">
       <h4 class="font-semibold text-gray-700 mb-4 text-lg">Wypożyczenia:</h4>
 

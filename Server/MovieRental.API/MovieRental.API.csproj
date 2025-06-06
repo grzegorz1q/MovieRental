@@ -26,5 +26,12 @@
   <PropertyGroup>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
+	
+  <ItemGroup>
+	<Content Include="Images\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	</Content>
+  </ItemGroup>
 
 </Project>

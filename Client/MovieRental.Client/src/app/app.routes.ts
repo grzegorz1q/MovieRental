@@ -10,6 +10,9 @@ import { LoggedUserInfoComponent } from './shared/logged-user-info/logged-user-i
 import { EmployeesListComponent } from './features/employee/pages/employees-list/employees-list.component';
 import { RentsDashboardComponent } from './features/rents/pages/rents-dashboard/rents-dashboard.component';
 import { ForgotPasswordComponent } from './shared/forgot-password/forgot-password.component';
+import { ClientsListComponent } from './features/clients/pages/clients-list/clients-list.component';
+import { ClientRentsListComponent } from './features/rents/pages/client-rents-list/client-rents-list.component';
+import { GeminiDashboardComponent } from './features/gemini/pages/gemini-dashboard/gemini-dashboard.component';
 
 export const routes: Routes = [
     {
@@ -58,5 +61,25 @@ export const routes: Routes = [
     {
         path: 'forgot-password',
         component: ForgotPasswordComponent
+    },
+    {
+        path: 'clients',
+        component: ClientsListComponent,
+        canActivate: [authGuard, roleGuard],
+        data: {
+            roles: ['Admin', 'Employee']
+        }
+    },
+    {
+        path: 'my-rents',
+        component: ClientRentsListComponent,
+        canActivate: [authGuard, roleGuard],
+        data: {
+            roles: ['Client']
+        }
+    },
+    {
+        path: 'movies-ai',
+        component: GeminiDashboardComponent
     }
 ];
